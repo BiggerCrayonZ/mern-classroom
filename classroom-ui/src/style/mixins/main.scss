@@ -1,0 +1,6 @@
+@import '../theme/main.scss';
+
+@function theme-color($key: 'primary', $variant: 'base') {
+    $map: map-get($theme-colors, $key);
+    @return map-get($map, $variant);
+}

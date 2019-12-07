@@ -1,0 +1,14 @@
+@import '../constants/constants.scss';
+
+$theme-colors: (
+    'primary': (
+        'base': $colorPrimaryBase,
+        'light': $colorPrimaryLight,
+        'dark': $colorPrimaryDark,
+    ),
+    'secondary': (
+        'base': $colorSecondaryBase,
+        'light': $colorSecondaryLight,
+        'dark': $colorSecondaryDark,
+    ),
+);
