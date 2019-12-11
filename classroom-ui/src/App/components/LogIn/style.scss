@@ -1,0 +1,52 @@
+.login {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &_card {
+        background-color: #fff;
+        height: 600px !important;
+        width: 400px !important;
+        display: flex !important;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    }
+    &_title {
+        margin-top: 2.4em;
+        color: #000000;
+        display: flex;
+        flex-direction: column;
+        & > div {
+            width: 100%;
+            text-align: center;
+            font-style: normal;
+            font-variant: small-caps !important;
+        }
+        &_first{
+            font-size: 32px !important;
+            font-weight: bold;
+        }
+        &_last {
+            font-size: 18px !important;
+        }
+    }
+    &_controls {
+        display: flex;
+        flex-direction: column;
+        width: 80%;
+        padding: 2em;
+        & > div {
+            margin-bottom: 1.4em;
+        }
+    }
+    &_submit {
+        background-color: #606060 !important;
+        margin-bottom: 4em !important;
+        color: #fff !important;
+        padding: 1.4em !important;
+    }
+}
