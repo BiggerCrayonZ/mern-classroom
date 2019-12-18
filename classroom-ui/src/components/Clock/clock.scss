@@ -1,0 +1,34 @@
+.clock {
+    width: 100% !important;
+    height: 20vh !important;
+    display: flex;
+    flex-direction: column;
+}
+
+.watch {
+    width: 12vw !important;
+    height: 12vh !important;
+    align-self: flex-end !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding-right: 0.6em;
+    &_label {
+        width: 100%;
+        height: 90%;
+        display: flex;
+        justify-content: flex-start;
+        font-family: 'Poppins Light';
+        font-style: normal;
+        font-weight: normal;
+        font-size: 64px;
+        line-height: 96px;
+        & > span {
+            margin: 0 0.4vw !important;
+        }
+    }
+    &_ampm {
+        width: 100%;
+        height: 10%;
+        text-align: right;
+    }
+}

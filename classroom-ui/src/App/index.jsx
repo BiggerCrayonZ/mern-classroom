@@ -5,11 +5,11 @@ import { Redirect, Route, Switch } from 'react-router-dom';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
 import { LinearProgress } from '@material-ui/core';
 /* Actions */
-import { setInitUrl } from '../redux/actions/authAction';
+import { setInitUrl } from '../redux/actions/auth';
 /* Comp */
 import RestrictedRoute from './components/RestrictedRouter';
 import LogIn from './components/LogIn';
-import pass from './components/routes/pass';
+import MainView from '../views';
 
 const classroomTheme = createMuiTheme({
   palette: {
@@ -37,6 +37,7 @@ const App = ({ location, initUrl, history, dispatch, match, user }) => {
   React.useEffect(() => {
     setLoad(false);
   }, []);
+  
   if (initUrl === "") {
     const {
       location: { pathname }
@@ -66,7 +67,7 @@ const App = ({ location, initUrl, history, dispatch, match, user }) => {
       <Switch>
         <RestrictedRoute
           authUser={user}
-          component={pass}
+          component={MainView}
           path={`${match.url}app`}
         />
         <Route path="/sign-in" component={LogIn} />

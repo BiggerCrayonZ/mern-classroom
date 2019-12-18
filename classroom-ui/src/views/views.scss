@@ -1,0 +1,10 @@
+.layout {
+    width: 100vw;
+    height: 100vh;
+    display: grid !important;
+    grid-template-columns: 12% 88% !important;
+    & > div {
+      height: 100% !important;
+      width: 100% !important;
+    }
+}

@@ -1,11 +1,22 @@
-import { INIT_URL } from "../constants/actionTypes";
+import {
+  INIT_URL,
+  AUTH_LOGIN_SUCCESS,
+} from "../constants/actionTypes";
+
+import { setStorage, getStorage } from '../../functions/User';
 
 const defaultState = () => ({
   initUrl: "",
-  user: {}
+  user: getStorage('user'),
 });
 
 const initialState = { ...defaultState() };
+
+const authenticate = (state, _user) => {
+  const user = { ..._user };
+  setStorage(user);
+  return ({ ...state, user });
+}
 
 export default function(state = initialState, action) {
   const { type } = action;
@@ -15,6 +26,9 @@ export default function(state = initialState, action) {
         ...state,
         initUrl: action.payload
       };
+    }
+    case AUTH_LOGIN_SUCCESS: {
+      return authenticate(state, action.user); 
     }
     default:
       return state;

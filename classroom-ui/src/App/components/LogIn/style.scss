@@ -7,8 +7,8 @@
     align-items: center;
     &_card {
         background-color: #fff;
-        height: 600px !important;
-        width: 400px !important;
+        height: 512px !important;
+        width: 340px !important;
         display: flex !important;
         flex-direction: column;
         justify-content: space-between;
@@ -40,12 +40,12 @@
         width: 80%;
         padding: 2em;
         & > div {
-            margin-bottom: 1.4em;
+            margin-bottom: 1.8em;
         }
     }
     &_submit {
         background-color: #606060 !important;
-        margin-bottom: 4em !important;
+        margin-bottom: 2em !important;
         color: #fff !important;
         padding: 1.4em !important;
     }
