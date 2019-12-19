@@ -3,11 +3,13 @@ import { connect } from "react-redux";
 import "./Consultant.scss";
 
 import Clock from "../Clock";
+import SearchBar from "../SearchBar";
 
 const Consultant = () => {
   return (
     <div className="consultant">
       <Clock />
+      <SearchBar />
     </div>
   );
 };
