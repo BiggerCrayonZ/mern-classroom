@@ -2,13 +2,18 @@ const jwt = require("jsonwebtoken");
 const config = require("../jwt.config");
 
 function verifyToken(req, res, next) {
-  const token = req.headers["x-access-token"];
-  if (!token) {
-    return res.status(401).json({ auth: false, message: "Sin token" });
+  try {
+    const token = req.headers["x-access-token"];
+    if (!token) {
+      return res.status(401).json({ auth: false, message: "Sin token" });
+    }
+    const decoded = jwt.verify(token, config.secret);
+    // console.log({ decoded });
+    req.userId = decoded.id;
+    next();
+  } catch (err) {
+    res.status(400).send(err);
   }
-  const decoded = jwt.verify(token, config.secret);
-  req.userId = decoded.id;
-  next();
 }
 
 module.exports = verifyToken;

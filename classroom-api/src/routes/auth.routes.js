@@ -7,12 +7,12 @@ const config = require("../jwt.config");
 
 const verifyToken = require("../token/verify.token");
 
-router.post("/signup", (req, res, next) => {
+router.post("/signup", verifyToken, (req, res, next) => {
   const controller = new userController();
   controller
     .signUp(req.body)
     .then(result => res.json({ ...result }))
-    .catch(() => res.json({ ok: "no" }));
+    .catch((err) => res.status(err.status).send({ err }));
 });
 
 router.get("/me", verifyToken, (req, res, next) => {

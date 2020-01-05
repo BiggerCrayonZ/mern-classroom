@@ -1,7 +1,7 @@
 const Activity = require("../models/activity");
 
 class ActivityController {
-  create = model =>
+  create = (model) =>
     new Promise((resolve, reject) => {
       const json = { ...model };
       json.date = new Date(json.date);

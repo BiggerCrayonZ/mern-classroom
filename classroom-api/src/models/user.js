@@ -4,7 +4,9 @@ const bcryptjs = require("bcryptjs");
 const userSchema = new Schema({
   username: String,
   email: String,
-  password: String
+  password: String,
+  role: String,
+  options: Object,
 });
 
 userSchema.methods.encryptPassword = async password => {

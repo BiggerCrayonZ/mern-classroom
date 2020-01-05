@@ -1,5 +1,5 @@
 const mong = require("mongoose");
-const URI = "mongodb://localhost/mern-aula";
+const URI = `mongodb+srv://rreza:${process.env.mongodbPass}@rreza-qo8zt.mongodb.net/classroom?retryWrites=true&w=majority`;
 
 mong.set('useFindAndModify', false);
 
