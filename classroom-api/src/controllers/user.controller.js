@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const config = require("../jwt.config");
 
 const roleController = require("../controllers/role.controller");
+const expiredIn = 60 * 60 * 24;
 
 class UserController {
   signUp = model =>
@@ -20,13 +21,14 @@ class UserController {
                 .save()
                 .then(() => {
                   const token = jwt.sign({ id: user._id }, config.secret, {
-                    expiresIn: 60 * 60 * 24
+                    expiresIn: expiredIn,
                   });
                   resolve({
                     status: "received",
                     username: user.username,
                     email: user.email,
-                    token
+                    token,
+                    expiredIn,
                   });
                 })
                 .catch(err => reject({ status: 500, err }));
@@ -62,6 +64,7 @@ class UserController {
       if (Object.keys(access).length === 2) {
         const { email, password } = access;
         const user = await User.findOne({ email });
+        console.log({ user });
         if (!user) {
           return reject({ status: 404, message: "Usuario no existe" });
         }
@@ -74,14 +77,15 @@ class UserController {
             message: "Acceso denegado"
           });
         }
-        const token = jwt.sign({ id: user._id }, config.secret, {
-          expiresIn: 60 * 60 * 24
+        const token = jwt.sign({ id: user._id, role: user.role }, config.secret, {
+          expiresIn: expiredIn,
         });
         resolve({
           status: 200,
           auth: true,
           token,
-          message: "Bienvenido"
+          message: "Bienvenido",
+          expiredIn,
         });
       } else {
         return reject({ status: 400, message: 'Usuario y/o contraseña vacios' });

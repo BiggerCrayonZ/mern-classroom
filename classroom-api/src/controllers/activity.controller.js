@@ -40,7 +40,6 @@ class ActivityController {
     new Promise(async (resolve, reject) => {
       try {
         const act = await Activity.findById(id);
-        console.log("act: ", act);
         if (act) {
           resolve(act);
         } else {

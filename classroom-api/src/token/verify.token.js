@@ -10,6 +10,7 @@ function verifyToken(req, res, next) {
     const decoded = jwt.verify(token, config.secret);
     // console.log({ decoded });
     req.userId = decoded.id;
+    req.role = decoded.role;
     next();
   } catch (err) {
     res.status(400).send(err);
