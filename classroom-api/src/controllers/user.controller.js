@@ -3,6 +3,11 @@ const jwt = require("jsonwebtoken");
 const config = require("../jwt.config");
 
 const roleController = require("../controllers/role.controller");
+const {
+  normalizeFilter,
+  normalizeSort,
+  normalizeSearch,
+} = require('../functions/user.function');
 const expiredIn = 60 * 60 * 24;
 
 class UserController {
@@ -89,6 +94,40 @@ class UserController {
         });
       } else {
         return reject({ status: 400, message: 'Usuario y/o contraseña vacios' });
+      }
+    });
+
+  /* User Control */
+
+  getAll = (search = '', filter = [], sort = []) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const searchJson = normalizeSearch(search);
+        const filterJson = normalizeFilter(filter);
+        const sortJson = normalizeSort(sort);
+        const users = await User
+          .find(searchJson)
+          .select(filterJson)
+          .sort(sortJson);
+        if (users.length > 0) {
+          console.log({ users });
+          resolve(users);
+        } else {
+          reject({ status: 404, message: 'empty' });
+        }
+      } catch (err) {
+        reject({ status: 500, err });
+      }
+    });
+
+  getById = id =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const user = await User.findById(id);
+        if (user) resolve(user);
+        else reject({ status: 404, err: `Usuario no encontrado` });
+      } catch (err) {
+        reject({ status: 500, err });
       }
     });
 }

@@ -7,7 +7,7 @@ const config = require("../jwt.config");
 
 const verifyToken = require("../token/verify.token");
 
-router.post("/signup", verifyToken, (req, res, next) => {
+router.post("/signup", (req, res, next) => {
   const controller = new userController();
   controller
     .signUp(req.body)
