@@ -4,8 +4,13 @@ const bcryptjs = require("bcryptjs");
 const userSchema = new Schema({
   username: String,
   email: String,
-  password: String
+  password: String,
+  role: String,
+  options: Object,
+  profile: Object,
 });
+
+userSchema.index({ '$**': 'text' });
 
 userSchema.methods.encryptPassword = async password => {
   const salt = await bcryptjs.genSalt(10);

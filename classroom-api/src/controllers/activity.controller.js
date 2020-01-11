@@ -1,7 +1,7 @@
 const Activity = require("../models/activity");
 
 class ActivityController {
-  create = model =>
+  create = (model) =>
     new Promise((resolve, reject) => {
       const json = { ...model };
       json.date = new Date(json.date);
@@ -40,7 +40,6 @@ class ActivityController {
     new Promise(async (resolve, reject) => {
       try {
         const act = await Activity.findById(id);
-        console.log("act: ", act);
         if (act) {
           resolve(act);
         } else {

@@ -12,7 +12,7 @@ router.post("/signup", (req, res, next) => {
   controller
     .signUp(req.body)
     .then(result => res.json({ ...result }))
-    .catch(() => res.json({ ok: "no" }));
+    .catch((err) => res.status(err.status).send({ err }));
 });
 
 router.get("/me", verifyToken, (req, res, next) => {
