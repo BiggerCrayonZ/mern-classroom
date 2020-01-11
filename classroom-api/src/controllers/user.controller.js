@@ -110,7 +110,6 @@ class UserController {
           .select(filterJson)
           .sort(sortJson);
         if (users.length > 0) {
-          console.log({ users });
           resolve(users);
         } else {
           reject({ status: 404, message: 'empty' });
@@ -123,7 +122,14 @@ class UserController {
   getById = id =>
     new Promise(async (resolve, reject) => {
       try {
-        const user = await User.findById(id);
+        const user = await User
+          .findById(id)
+          .select({
+            username: 1,
+            email: 1,
+            role: 1,
+            profile: 1,
+          });
         if (user) resolve(user);
         else reject({ status: 404, err: `Usuario no encontrado` });
       } catch (err) {

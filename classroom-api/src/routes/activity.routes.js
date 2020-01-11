@@ -76,7 +76,7 @@ router.put("/:id", verifyToken, async (req, res) => {
     secondaryLocation
   };
   await Activity.findByIdAndUpdate(req.params.id, newActivity);
-  res.json({ status: "updated", newActivity });
+  res.json({ status: "success", newActivity });
 });
 
 router.delete("/:id", verifyToken, async (req, res) => {
