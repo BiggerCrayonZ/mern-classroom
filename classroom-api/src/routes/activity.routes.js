@@ -1,7 +1,21 @@
 const ex = require("express");
 const router = ex.Router();
+// Multer
+const multer = require("multer");
+var storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+    cb(null, "data/csv");
+  },
+  filename: function(req, file, cb) {
+    cb(null, file.originalname);
+  }
+});
+var upload = multer({ storage: storage });
+
+// Activity
 const Activity = require("../models/activity");
 const activityController = require("../controllers/activity.controller");
+// Token
 const verifyToken = require("../token/verify.token");
 
 router.get("/", verifyToken, async (req, res) => {
@@ -25,7 +39,7 @@ router.post("/params", verifyToken, async (req, res) => {
   controller
     .getByParams({ ...req.body })
     .then(response => res.status(200).json(response))
-    .catch(err => res.status(err.status).json(err));
+    .catch(err => res.status(err.status).json({ ...err }));
 });
 
 router.post("/", verifyToken, async (req, res) => {
@@ -55,6 +69,19 @@ router.post("/bulk", verifyToken, async (req, res) => {
       .catch(err => {
         res.status(err.status).json(err);
       });
+  } catch (err) {
+    res.status(500).json({ activityErr: { ...err } });
+  }
+});
+
+router.post("/file", upload.single("file"), (req, res) => {
+  try {
+    const controller = new activityController();
+    console.log(req.file);
+    controller
+      .file(req.file.path)
+      .then(result => res.status(200).json(result))
+      .catch(err => res.status(500).json({ activityErr: { ...err } }));
   } catch (err) {
     res.status(500).json({ activityErr: { ...err } });
   }

@@ -1,7 +1,9 @@
+const fs = require("fs");
+const csv = require("fast-csv");
 const Activity = require("../models/activity");
 
 class ActivityController {
-  create = (model) =>
+  create = model =>
     new Promise((resolve, reject) => {
       const json = { ...model };
       json.date = new Date(json.date);
@@ -24,6 +26,28 @@ class ActivityController {
           });
         }
       });
+    });
+
+  file = path =>
+    new Promise((resolve, reject) => {
+      let fileRows = [];
+      try {
+        console.log({ path });
+        fs.createReadStream(path)
+          .pipe(csv.parse())
+          .on("error", error => console.error(error))
+          .on("data", row => {
+            console.log(`ROW=${JSON.stringify(row)}`);
+            fileRows = [...fileRows, row];
+          })
+          .on("end", rowCount => {
+            fs.unlinkSync(path);
+            resolve({ rowCount, fileRows });
+          });
+      } catch (err) {
+        console.log({ err });
+        reject(err);
+      }
     });
 
   getAll = () =>

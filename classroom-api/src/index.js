@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Methods", ['GET', 'PUT', 'POST', 'UPDATE', 'OPTIONS']);
   next();
 });
-app.use(express.json());
+// app.use(express.json());
 
 /* Routes */
 app.use('/api/activity',require('./routes/activity.routes'));
