@@ -21,7 +21,7 @@ class ActivityController {
           reject({ status: 500, err });
         } else {
           resolve({
-            msg: "Acitivities were successfully stored",
+            msg: "Activities were successfully stored",
             total: docs.length
           });
         }
@@ -36,13 +36,19 @@ class ActivityController {
         fs.createReadStream(path)
           .pipe(csv.parse())
           .on("error", error => console.error(error))
-          .on("data", row => {
-            console.log(`ROW=${JSON.stringify(row)}`);
+          .on("data", (data) => {
+            let row = {};
+            if (fileRows.length > 0) {
+              const arr = Object.entries(fileRows[0]);
+              arr.forEach((x, i) => row = { ...row, [x[1]]: data[i] });
+            } else row = { ...data };
             fileRows = [...fileRows, row];
           })
-          .on("end", rowCount => {
+          .on("end", (rowCount) => {
             fs.unlinkSync(path);
-            resolve({ rowCount, fileRows });
+            fileRows.shift();
+            let count = rowCount - 1;
+            resolve({ count, fileRows });
           });
       } catch (err) {
         console.log({ err });

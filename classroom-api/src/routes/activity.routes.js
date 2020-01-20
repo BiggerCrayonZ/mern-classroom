@@ -3,10 +3,11 @@ const router = ex.Router();
 // Multer
 const multer = require("multer");
 var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
-    cb(null, "data/csv");
+  destination: function (req, file, cb) {
+    const before = file.originalname.split('.');
+    cb(null, `./src/data/${before[before.length - 1]}`);
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname);
   }
 });
@@ -74,10 +75,10 @@ router.post("/bulk", verifyToken, async (req, res) => {
   }
 });
 
-router.post("/file", upload.single("file"), (req, res) => {
+router.post("/file", verifyToken, upload.single("file"), (req, res) => {
   try {
+    console.log({ ...req.body });
     const controller = new activityController();
-    console.log(req.file);
     controller
       .file(req.file.path)
       .then(result => res.status(200).json(result))
