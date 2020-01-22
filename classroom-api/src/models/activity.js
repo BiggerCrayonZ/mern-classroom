@@ -12,4 +12,6 @@ const activitySchema = new Schema({
   duration: { type: Number },
 });
 
+activitySchema.index({ '$**': 'text' });
+
 module.exports = mong.model("Activity", activitySchema);

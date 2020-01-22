@@ -44,11 +44,23 @@ class ActivityController {
             } else row = { ...data };
             fileRows = [...fileRows, row];
           })
-          .on("end", (rowCount) => {
-            fs.unlinkSync(path);
-            fileRows.shift();
-            let count = rowCount - 1;
-            resolve({ count, fileRows });
+          .on("end", async (rowCount) => {
+            await fileRows.shift();
+            await fs.unlinkSync(path);
+            Activity.collection.insertMany(fileRows, (err, docs) => {
+              if (err) {
+                reject({ status: 500, err });
+              } else {
+                let count = rowCount - 1;
+                resolve({
+                  count,
+                  fileRows,
+                  status: 200,
+                  success: true,
+                  msg: "Las actividades se almacenaron con éxito",
+                });
+              }
+            });
           });
       } catch (err) {
         console.log({ err });
