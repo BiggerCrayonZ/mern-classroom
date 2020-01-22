@@ -20,9 +20,12 @@ const activityController = require("../controllers/activity.controller");
 const verifyToken = require("../token/verify.token");
 
 router.get("/", verifyToken, async (req, res) => {
+  const search = req.query.search || "";
+  const filter = req.query.filter ? req.query.filter.split(",") : [];
+  const sort = req.query.sort ? req.query.sort.split(",") : [];
   const controller = new activityController();
   controller
-    .getAll()
+    .getAll(search, filter, sort)
     .then(response => res.status(200).json(response))
     .catch(err => res.status(err.status).json(err));
 });

@@ -2,6 +2,12 @@ const fs = require("fs");
 const csv = require("fast-csv");
 const Activity = require("../models/activity");
 
+const {
+  normalizeFilter,
+  normalizeSort,
+  normalizeSearch,
+} = require('../functions/general.function');
+
 class ActivityController {
   create = model =>
     new Promise((resolve, reject) => {
@@ -54,7 +60,6 @@ class ActivityController {
                 let count = rowCount - 1;
                 resolve({
                   count,
-                  fileRows,
                   status: 200,
                   success: true,
                   msg: "Las actividades se almacenaron con éxito",
@@ -68,11 +73,27 @@ class ActivityController {
       }
     });
 
-  getAll = () =>
+  getAll = (search = '', filter = [], sort = []) =>
     new Promise(async (resolve, reject) => {
       try {
-        const acts = await Activity.find();
-        resolve(acts);
+        console.log({ search, filter, sort });
+        const searchJson = normalizeSearch(search);
+        const filterJson = normalizeFilter(filter);
+        const sortJson = normalizeSort(sort);
+        console.log({ searchJson, filterJson, sortJson });
+        const acts = await Activity
+          .find(searchJson)
+          .select(filterJson)
+          .sort(sortJson);
+        if (acts.length > 0) {
+          const count = acts.length;
+          resolve({
+            success: true,
+            status: 200,
+            count,
+            result: acts,
+          });
+        } else reject({ status: 404, message: 'empty' });
       } catch (err) {
         reject({ status: 500, err });
       }
