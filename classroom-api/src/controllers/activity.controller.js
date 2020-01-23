@@ -1,6 +1,7 @@
 const fs = require("fs");
 const csv = require("fast-csv");
 const Activity = require("../models/activity");
+const mong = require("mongoose");
 
 const {
   normalizeFilter,
@@ -139,6 +140,18 @@ class ActivityController {
         reject({ status: 500, err });
       }
     });
+
+  emptyCollection = () =>
+    new Promise(async (resolve, reject) => {
+      try {
+        mong.connection.dropCollection('activities', function (err, result) {
+          console.log({ result });
+          resolve({ success: true, result });
+        });
+      } catch (err) {
+        reject({ status: 500, err });
+      }
+    })
 }
 
 module.exports = ActivityController;

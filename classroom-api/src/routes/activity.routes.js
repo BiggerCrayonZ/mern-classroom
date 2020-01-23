@@ -110,11 +110,11 @@ router.put("/:id", verifyToken, async (req, res) => {
   res.json({ status: "success", newActivity });
 });
 
-router.delete("/:id", verifyToken, async (req, res) => {
+router.delete("/empty", verifyToken, async (req, res) => {
   try {
     const controller = new activityController();
     controller
-      .delete(req.params.id)
+      .emptyCollection()
       .then(result => res.status(200).json(result))
       .catch(err => res.status(err.status).json(err));
   } catch (err) {
