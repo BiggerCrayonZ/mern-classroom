@@ -91,6 +91,10 @@ class UserController {
           token,
           message: "Bienvenido",
           expiredIn,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+          profile: user.profile,
         });
       } else {
         return reject({ status: 400, message: 'Usuario y/o contraseña vacios' });
