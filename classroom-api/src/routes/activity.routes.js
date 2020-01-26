@@ -5,6 +5,7 @@ const multer = require("multer");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const before = file.originalname.split('.');
+    const path = `./src/data/${before[before.length - 1]}`;
     cb(null, `./src/data/${before[before.length - 1]}`);
   },
   filename: function (req, file, cb) {
@@ -12,6 +13,21 @@ var storage = multer.diskStorage({
   }
 });
 var upload = multer({ storage: storage });
+
+var upload = multer({
+  storage: storage,
+  fileFilter: function (req, file, cb) {
+    console.log({ file });
+    if (
+      file.mimetype === 'text/csv'
+      || file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    ) {
+      cb(null, true);
+    } else {
+      cb('Tipo de archivo incorrecto', false);
+    }
+  }
+}).single('file');
 
 // Activity
 const Activity = require("../models/activity");
@@ -78,17 +94,25 @@ router.post("/bulk", verifyToken, async (req, res) => {
   }
 });
 
-router.post("/file", verifyToken, upload.single("file"), (req, res) => {
-  try {
-    console.log({ ...req.body });
-    const controller = new activityController();
-    controller
-      .file(req.file.path)
-      .then(result => res.status(200).json(result))
-      .catch(err => res.status(500).json({ activityErr: { ...err } }));
-  } catch (err) {
-    res.status(500).json({ activityErr: { ...err } });
-  }
+router.post("/file", verifyToken, (req, res) => {
+  upload(req, res, function (err) {
+    if (err instanceof multer.MulterError) {
+      res.status(400).json({ activityErr: err, type: 'multer' });
+    } else if (err) {
+      res.status(400).json({ activityErr: err, type: 'unknown' });
+    } else {
+      try {
+        console.log({ ...req.body });
+        const controller = new activityController();
+        controller
+          .file(req.file.path)
+          .then(result => res.status(200).json(result))
+          .catch(err => res.status(500).json({ activityErr: { ...err } }));
+      } catch (err) {
+        res.status(500).json({ activityErr: { ...err } });
+      }
+    }
+  });
 });
 
 router.put("/:id", verifyToken, async (req, res) => {
