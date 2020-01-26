@@ -1,12 +1,22 @@
 const ex = require("express");
 const router = ex.Router();
+/* Fs */
+const fs = require("fs");
 // Multer
 const multer = require("multer");
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const before = file.originalname.split('.');
     const path = `./src/data/${before[before.length - 1]}`;
-    cb(null, `./src/data/${before[before.length - 1]}`);
+    fs.exists(path, (exists) => {
+      if (exists) cb(null, `./src/data/${before[before.length - 1]}`);
+      else {
+        fs.mkdir(path, (err) => {
+          if (err) cb('Error al crear directorio para archivo', false);
+          else cb(null, `./src/data/${before[before.length - 1]}`);
+        })
+      }
+    })
   },
   filename: function (req, file, cb) {
     cb(null, file.originalname);
