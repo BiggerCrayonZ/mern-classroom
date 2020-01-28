@@ -7,6 +7,7 @@ const {
   normalizeFilter,
   normalizeSort,
   normalizeSearch,
+  normalizeFileRows,
 } = require('../functions/general.function');
 
 class ActivityController {
@@ -54,6 +55,7 @@ class ActivityController {
           .on("end", async (rowCount) => {
             await fileRows.shift();
             await fs.unlinkSync(path);
+            fileRows = normalizeFileRows(fileRows);
             Activity.collection.insertMany(fileRows, (err, docs) => {
               if (err) {
                 reject({ status: 500, err });

@@ -29,3 +29,12 @@ exports.normalizeSort = (arr = []) => {
     });
     return json;
 }
+
+exports.normalizeFileRows = (arr = []) => {
+    if (arr.length === 0) return {};
+    return arr.map((x) => ({
+        ...x,
+        startHour: Number.parseInt(x.startHour),
+        duration: Number.parseInt(x.duration),
+    }));
+}
