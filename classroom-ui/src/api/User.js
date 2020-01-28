@@ -8,7 +8,7 @@ class User extends ConfigurationAPI {
         email,
         password
       };
-      const url = `${this.url}/auth/signin`;
+      const url = '/auth/signin';
       axios
         .post(url, body, this.headers)
         .then(response => resolve(response))

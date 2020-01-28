@@ -26,8 +26,11 @@ app.use('/api/role',require('./routes/role.routes'));
 app.use('/api/auth',require('./routes/auth.routes'));
 app.use('/api/user',require('./routes/user.routes'));
 
-/* Static */
-app.use(express.static(path.join(__dirname, 'public')));
+/* Static and React Build */
+app.use(express.static(path.join(__dirname, '../../classroom-ui/build')));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '../../classroom-ui/build/index.html'))
+});
 
 /* Init */
 app.listen(app.get('port'), () => {
