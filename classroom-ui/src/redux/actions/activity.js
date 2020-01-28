@@ -1,10 +1,14 @@
 import { GET_ALL_SUCCESS } from "../constants/activity.types";
 import Activities from "../../api/Activities";
 import { normalizeActs } from "../../functions/Activity";
+
+import { loading, loaded } from "./load";
+
 import Swal from "sweetalert2";
 
 export function getAllActivities() {
   return async dispatch => {
+    await dispatch(loading("activity"));
     try {
       const ActivityApi = new Activities();
       ActivityApi.getAll()
@@ -36,6 +40,8 @@ export function getAllActivities() {
         });
     } catch (err) {
       console.log({ getAll: err });
+    } finally {
+      await dispatch(loaded("activity"));
     }
   };
 }

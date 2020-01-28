@@ -1,9 +1,82 @@
 .generalList {
     width: 100% !important;
-    height: 100% !important;
+    height: 68vh !important;
     display: flex;
     flex-direction: column;
-    max-height: 100% !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
+
+    &_list {
+        width: 100% !important;
+        height: 100% !important;
+        display: flex;
+        flex-direction: column;
+        max-height: 100% !important;
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+
+        &>div {
+            border-top: solid 1px #000000;
+
+            &:last-child {
+                border-bottom: solid 1px #000000;
+
+            }
+        }
+    }
+
+    &_item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100% !important;
+        height: 96px !important;
+
+        &>div {
+            width: 98%;
+
+            &:first-child {
+                height: 100%;
+                width: 2% !important;
+                background-color: #21cece;
+            }
+        }
+
+        &_detail {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1em !important;
+            height: 52px !important;
+
+            &>div {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                align-items: flex-start;
+
+                &:last-child {
+                    align-items: flex-end !important;
+                }
+
+            }
+        }
+
+        &_title {
+            font-weight: bold;
+            font-size: 16px !important;
+            max-width: 75px !important;
+        }
+        &_subtitle {
+            color: #B1B1B1 !important;
+            font-size: 14px !important;
+        }
+        &_hour {
+            font-size: 20px !important;
+            font-weight: bold !important;
+        }
+        &_location {
+            font-size: 16px !important;
+        }
+    }
 }
