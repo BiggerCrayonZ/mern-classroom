@@ -6,7 +6,8 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  LinearProgress
+  LinearProgress,
+  CircularProgress
 } from "@material-ui/core";
 import { Warning } from "@material-ui/icons";
 
@@ -19,11 +20,10 @@ const GeneralList = ({ loading, activities }) => {
       {!loading && activities.length === 0 && (
         <ListItem>
           <ListItemIcon>
-            <Warning />
+            {loading ? <CircularProgress /> : <Warning />}
           </ListItemIcon>
           <ListItemText
-            primary="Sin actividades almacenadas"
-            secondary="Verifique su conexión a internet o puede que las actividades no hayan sido subidas aún."
+            primary={loading ? "Cargando ..." : "Sin actividades almacenadas"}
           />
         </ListItem>
       )}

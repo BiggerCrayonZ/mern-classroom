@@ -24,7 +24,9 @@ export function getAllActivities() {
           const {
             response: { data, status }
           } = err;
-          if (status === 401) {
+          if (status === 404) {
+            return;
+          } else if (status === 401) {
             Swal.fire({
               icon: "warning",
               title: "Upsss...",
