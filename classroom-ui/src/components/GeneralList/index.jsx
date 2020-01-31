@@ -12,10 +12,19 @@ import {
 import { Warning } from "@material-ui/icons";
 
 import GeneralListItem from "./GeneralListItem";
+import GeneralListLabel from "./GeneralListLabel";
 
 const GeneralList = ({ loading, activities }) => {
+  let flag = 0;
+
+  const setFlag = (_start) => {
+    flag = _start;
+    return (<GeneralListLabel label={_start} />)
+  }
+
   return (
     <div className="generalList">
+      {console.log({ loading })}
       {loading && <LinearProgress className="w-100" />}
       {!loading && activities.length === 0 && (
         <ListItem>
@@ -29,9 +38,12 @@ const GeneralList = ({ loading, activities }) => {
       )}
       {!loading && activities.length > 0 && (
         <div className="generalList_list">
-          {activities.map(item => (
-            <GeneralListItem key={`key_act_${item._id}`} item={item} />
-          ))}
+            {activities.map(item => (
+              <span key={`key_act_${item._id}`}>
+                {item.startHour !== flag && setFlag(item.startHour)}
+                <GeneralListItem item={item} />
+              </span>
+            ))}
         </div>
       )}
     </div>

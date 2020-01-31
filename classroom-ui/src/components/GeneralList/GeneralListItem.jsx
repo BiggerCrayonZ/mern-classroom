@@ -11,7 +11,7 @@ const GeneralListItem = ({ item }) => {
           <span className="generalList_item_subtitle">{item.subTitle}</span>
         </div>
         <div>
-          <span className="generalList_item_hour">{item.startHour}</span>
+          <span className="generalList_item_hour">{`${item.start} - ${item.end}`}</span>
           <span className="generalList_item_location">{`${item.primaryLocation} - ${item.secondaryLocation}`}</span>
         </div>
       </div>
