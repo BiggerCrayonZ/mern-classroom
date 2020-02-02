@@ -1,9 +1,12 @@
 import {
   INIT_URL,
   AUTH_LOGIN_SUCCESS,
+  AUTH_LOGOUT_SUCCESS,
 } from "../constants/actionTypes";
 
-import { setStorage, getStorage } from '../../functions/User';
+import {
+  setStorage, getStorage, emptyStorage,
+} from '../../functions/User';
 
 const defaultState = () => ({
   initUrl: "",
@@ -18,6 +21,12 @@ const authenticate = (state, _user) => {
   return ({ ...state, user });
 }
 
+const unauthenticate = () => {
+  emptyStorage();
+  return defaultState();
+};
+
+
 export default function(state = initialState, action) {
   const { type } = action;
   switch (type) {
@@ -27,6 +36,8 @@ export default function(state = initialState, action) {
         initUrl: action.payload
       };
     }
+    case AUTH_LOGOUT_SUCCESS:
+      return unauthenticate();
     case AUTH_LOGIN_SUCCESS: {
       return authenticate(state, action.user); 
     }

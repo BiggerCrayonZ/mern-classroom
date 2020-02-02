@@ -9,6 +9,7 @@ import { setInitUrl } from '../redux/actions/auth';
 /* Comp */
 import RestrictedRoute from './components/RestrictedRouter';
 import LogIn from './components/LogIn';
+import LogOut from './components/LogOut';
 import MainView from '../views';
 
 const classroomTheme = createMuiTheme({
@@ -71,6 +72,7 @@ const App = ({ location, initUrl, history, dispatch, match, user }) => {
           path={`${match.url}app`}
         />
         <Route path="/sign-in" component={LogIn} />
+        <Route path="/sign-out" component={LogOut} />
       </Switch>
     </MuiThemeProvider>
   );

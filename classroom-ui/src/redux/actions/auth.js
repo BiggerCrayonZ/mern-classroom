@@ -1,4 +1,9 @@
-import { INIT_URL, AUTH_LOGIN_SUCCESS } from "../constants/actionTypes";
+import {
+  INIT_URL,
+  AUTH_LOGIN_SUCCESS,
+  AUTH_LOGOUT_SUCCESS,
+} from "../constants/actionTypes";
+import { loading, loaded } from './load';
 
 import Swal from "sweetalert2";
 
@@ -65,3 +70,24 @@ export function login(data) {
     }
   };
 }
+
+export function unauthenticate() {
+  return async (dispatch) => {
+    await dispatch(loading('authUser'));
+    try {
+      await dispatch({
+        type: AUTH_LOGOUT_SUCCESS,
+      });
+    } catch (loginErr) {
+      console.log({ loginErr });
+      Swal.fire({
+        icon: 'warning',
+        title: "Upsss...",
+        text: loginErr,
+      });
+    } finally {
+      await dispatch(loaded('authUser'));
+    }
+  };
+}
+
