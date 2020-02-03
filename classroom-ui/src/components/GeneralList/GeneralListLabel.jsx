@@ -1,23 +1,23 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const GeneralListLabel = ({ label }) => {
+const GeneralListLabel = ({ labelTime }) => {
   return (
     <div className="generalList_head">
       <div />
       <div className="generalList_head_label">
-        {`${label} ${label < 12 ? 'AM' : 'PM'} `}
+        {`${labelTime} ${labelTime < 12 ? 'AM' : 'PM'} `}
       </div>
     </div>
   );
 };
 
 GeneralListLabel.propTypes = {
-  label: PropTypes.any
+  labelTime: PropTypes.number
 };
 
 GeneralListLabel.propTypes = {
-  label: 0
+  labelTime: 0
 };
 
 export default GeneralListLabel;

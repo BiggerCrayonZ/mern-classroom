@@ -19,7 +19,7 @@ const GeneralList = ({ loading, activities }) => {
 
   const setFlag = (_start) => {
     flag = _start;
-    return (<GeneralListLabel label={_start} />)
+    return (<GeneralListLabel labelTime={_start} />)
   }
 
   return (
