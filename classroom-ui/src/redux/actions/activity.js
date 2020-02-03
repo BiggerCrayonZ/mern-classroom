@@ -15,9 +15,12 @@ export function getAllActivities(search = '') {
         .then(async response => {
           const { data } = response;
           const activities = normalizeActs(data.result);
+          const { count } = data;
           await dispatch({
             type: GET_ALL_SUCCESS,
-            activities
+            activities,
+            count,
+            search,
           });
           await dispatch(loaded("activity"));
         })
