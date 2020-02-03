@@ -43,6 +43,7 @@ var upload = multer({
     console.log({ file });
     if (
       file.mimetype === "text/csv" ||
+      file.mimetype === "application/vnd.ms-excel" ||
       file.mimetype ===
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ) {
