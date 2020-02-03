@@ -12,7 +12,9 @@
         max-height: 100% !important;
         overflow-y: auto !important;
         overflow-x: hidden !important;
-
+        & > div {
+            box-shadow: 0px 1px 1px #00000099 !important;
+        }
         &>span>div {
             border-top: solid 1px #000000;
 
@@ -28,16 +30,11 @@
         justify-content: space-between;
         align-items: center;
         width: 100% !important;
-        height: 78px !important;
-        box-shadow: 0px 1px 6px #00000099 !important;
+        min-height: 78px !important;
+        border-left: solid 6px #21cece !important;
+        border-bottom: solid 1px #000000 !important;
         &>div {
             width: 100%;
-
-            &:first-child {
-                height: 100%;
-                width: 2% !important;
-                background-color: #21cece;
-            }
         }
 
         &_detail {
@@ -45,7 +42,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 0.8em !important;
-            height: 52px !important;
+            min-height: 52px !important;
 
             &>div {
                 width: 100%;
@@ -64,8 +61,9 @@
 
         &_title {
             font-weight: bold;
-            font-size: 14px !important;
-            max-width: 100px !important;
+            font-size: 15px !important;
+            max-width: 150px !important;
+            text-transform: capitalize !important;
         }
 
         &_subtitle {
@@ -74,8 +72,7 @@
         }
 
         &_hour {
-            font-size: 14px !important;
-            font-weight: bold !important;
+            font-size: 16px !important;
         }
 
         &_location {
@@ -90,6 +87,7 @@
         display: flex;
         align-items: center;
         box-shadow: 0px 1px 6px #00000099 !important;
+
         &>div {
             width: 100%;
 

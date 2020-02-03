@@ -39,10 +39,10 @@ const GeneralList = ({ loading, activities }) => {
       {!loading && activities.length > 0 && (
         <div className="generalList_list">
             {activities.map(item => (
-              <span key={`key_act_${item._id}`}>
+              <div key={`key_act_${item._id}`}>
                 {item.startHour !== flag && setFlag(item.startHour)}
                 <GeneralListItem item={item} />
-              </span>
+              </div>
             ))}
         </div>
       )}
