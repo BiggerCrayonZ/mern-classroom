@@ -5,20 +5,33 @@ const fs = require("fs");
 // Multer
 const multer = require("multer");
 var storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    const before = file.originalname.split('.');
-    const path = `./src/data/${before[before.length - 1]}`;
-    fs.exists(path, (exists) => {
-      if (exists) cb(null, `./src/data/${before[before.length - 1]}`);
+  destination: function(req, file, cb) {
+    const before = file.originalname.split(".");
+    let path = `./data/${before[before.length - 1]}`;
+    console.log({ path });
+    fs.exists(path, exists => {
+      if (exists) cb(null, path);
       else {
-        fs.mkdir(path, (err) => {
-          if (err) cb('Error al crear directorio para archivo', false);
-          else cb(null, `./src/data/${before[before.length - 1]}`);
-        })
+        fs.mkdir(path, err => {
+          console.log({ err });
+          if (err) {
+            path = `${__dirname}/data/${before[before.length - 1]}`;
+            fs.exists(path, existAgain => {
+              if (existAgain) cb(null, path);
+              else {
+                fs.mkdir(path, errAgain => {
+                  console.log({ errAgain })
+                  if (errAgain) cb("Error al crear directorio para archivo", false);
+                  else cb(null, path);
+                });
+              }
+            });
+          } else cb(null, path);
+        });
       }
-    })
+    });
   },
-  filename: function (req, file, cb) {
+  filename: function(req, file, cb) {
     cb(null, file.originalname);
   }
 });
@@ -26,18 +39,19 @@ var upload = multer({ storage: storage });
 
 var upload = multer({
   storage: storage,
-  fileFilter: function (req, file, cb) {
+  fileFilter: function(req, file, cb) {
     console.log({ file });
     if (
-      file.mimetype === 'text/csv'
-      || file.mimetype === 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+      file.mimetype === "text/csv" ||
+      file.mimetype ===
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ) {
       cb(null, true);
     } else {
-      cb('Tipo de archivo incorrecto', false);
+      cb("Tipo de archivo incorrecto", false);
     }
   }
-}).single('file');
+}).single("file");
 
 // Activity
 const Activity = require("../models/activity");
@@ -105,11 +119,11 @@ router.post("/bulk", verifyToken, async (req, res) => {
 });
 
 router.post("/file", verifyToken, (req, res) => {
-  upload(req, res, function (err) {
+  upload(req, res, function(err) {
     if (err instanceof multer.MulterError) {
-      res.status(400).json({ activityErr: err, type: 'multer' });
+      res.status(400).json({ activityErr: err, type: "multer" });
     } else if (err) {
-      res.status(400).json({ activityErr: err, type: 'unknown' });
+      res.status(400).json({ activityErr: err, type: "unknown" });
     } else {
       try {
         console.log({ ...req.body });
