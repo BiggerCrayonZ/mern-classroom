@@ -24,7 +24,6 @@ export const findItem = id => {
     window.localStorage.getItem(id) || window.sessionStorage.getItem(id);
   try {
     const json = JSON.parse(item);
-    console.log({ json });
     return json || {};
   } catch {
     return {};

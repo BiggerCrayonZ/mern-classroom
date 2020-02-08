@@ -3,7 +3,6 @@ exports.normalizeSearch = (string) => {
     return ({
         $text: {
             $search: string,
-            $diacriticSensitive: true,
         }
     });
 }

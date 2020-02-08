@@ -1,6 +1,6 @@
 import { GET_ALL_SUCCESS } from "../constants/activity.types";
 import Activities from "../../api/Activities";
-import { normalizeActs } from "../../functions/Activity";
+import { normalizeActs, mapActivities } from "../../functions/Activity";
 
 import { loading, loaded } from "./load";
 
@@ -15,6 +15,8 @@ export function getAllActivities(search = "") {
         .then(async response => {
           const { data } = response;
           const activities = normalizeActs(data.result);
+          const labels = mapActivities(activities);
+          console.log({ labels });
           const { count } = data;
           await dispatch({
             type: GET_ALL_SUCCESS,
