@@ -6,7 +6,7 @@ import { loading, loaded } from "./load";
 
 import Swal from "sweetalert2";
 
-export function getAllActivities(search = "") {
+export function getAllActivities(sync = null, search = "") {
   return async dispatch => {
     await dispatch(loading("activity"));
     try {
@@ -14,14 +14,25 @@ export function getAllActivities(search = "") {
       ActivityApi.getAll(search)
         .then(async response => {
           const { data } = response;
-          const activities = normalizeActs(data.result);
-          const labels = mapActivities(activities);
+          const act = normalizeActs(data.result);
+          const labels = mapActivities(act);
           console.log({ labels });
+          const conflicts = Boolean(labels.hourConflict.length > 0);
+          if (sync) {
+            await Swal.fire({
+              icon: conflicts ? 'warning' : 'success',
+              title: `Sincronización completada ${conflicts ? 'con conflictos' : ''}`,
+              text: sync,
+            });
+          }
           const { count } = data;
+          const { activities, hourConflict, map } = labels;
           await dispatch({
             type: GET_ALL_SUCCESS,
             activities,
             count,
+            hourConflict,
+            map,
             search
           });
           await dispatch(loaded("activity"));
@@ -73,13 +84,8 @@ export function syncActivities(file = null) {
           if (cleanRes.status === 200) {
             ActivityApi.upload(file)
               .then(async response => {
-                await Swal.fire({
-                  icon: "success",
-                  title: "Sincronización completada",
-                  text: response.data.msg
-                });
                 await dispatch(loaded("file"));
-                await dispatch(getAllActivities());
+                await dispatch(getAllActivities(response.data.msg));
                 await dispatch(loaded("activity"));
               })
               .catch(async uploadErr => {

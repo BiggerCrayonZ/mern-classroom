@@ -37,10 +37,12 @@ export const normalizeActs = act => {
   return arr;
 };
 
-export const mapActivities = activities => {
+export const mapActivities = acts => {
   let pattern = {};
+  let activities = [];
   let hourConflict = [];
-  activities.forEach(act => {
+  acts.forEach(x => {
+    const act = { ...x };
     const label = `${act.primaryLocation} - ${act.secondaryLocation}`;
     if (pattern[label] === undefined) {
       pattern = {
@@ -56,13 +58,18 @@ export const mapActivities = activities => {
       const found = getConflict(pattern[label].row, act);
       if (found) {
         hourConflict = [...hourConflict, act];
-      } else pattern[label].row = [...pattern[label].row, act];
+        act.conflict = true;
+      } else {
+        pattern[label].row = [...pattern[label].row, act];
+        act.conflict = false;
+      }
     }
     pattern[label].row.sort((a, b) => {
       if (a.startHour > b.startHour) return 1;
       if (a.startHour < b.startHour) return -1;
       return 0;
     });
+    activities = [...activities, act];
   });
   const map = Object.entries(pattern).map(x => ({ ...x[1] }));
   map.sort((a, b) => {
@@ -75,7 +82,7 @@ export const mapActivities = activities => {
     if (a.primary < b.primary) return -1;
     return 0;
   });
-  return { map, pattern, hourConflict };
+  return { map, pattern, hourConflict, activities };
 };
 
 export default {
