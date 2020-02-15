@@ -18,7 +18,7 @@ export function getAllActivities(sync = null, search = "") {
           const labels = mapActivities(act);
           console.log({ labels });
           const conflicts = Boolean(labels.hourConflict.length > 0);
-          if (sync) {
+          if (sync && search === '') {
             await Swal.fire({
               icon: conflicts ? 'warning' : 'success',
               title: `Sincronización completada ${conflicts ? 'con conflictos' : ''}`,

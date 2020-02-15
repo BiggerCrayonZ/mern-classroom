@@ -1,13 +1,14 @@
 import React from "react";
 import "./Control.scss";
 
+import Book from "../../components/Book";
 import Consultant from "../../components/Consultant";
 import ActivityController from "../../components/ActivityController";
 
-const Book = () => (
-  <div className="book">
+const ActivityBook = () => (
+  <div className="activityBook">
     <ActivityController />
-    <div></div>
+    <Book />
   </div>
 );
 
@@ -15,7 +16,7 @@ const ControlPage = () => {
   return (
     <div className="control">
       <Consultant />
-      <Book />
+      <ActivityBook />
     </div>
   );
 };
