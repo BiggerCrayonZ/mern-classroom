@@ -26,14 +26,18 @@ export function getAllActivities(sync = null, search = "") {
             });
           }
           const { count } = data;
-          const { activities, hourConflict, map } = labels;
+          const {
+            activities, hourConflict, map, hMin, hMax
+          } = labels;
           await dispatch({
             type: GET_ALL_SUCCESS,
             activities,
             count,
             hourConflict,
             map,
-            search
+            search,
+            hMin,
+            hMax,
           });
           await dispatch(loaded("activity"));
         })

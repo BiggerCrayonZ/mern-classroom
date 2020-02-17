@@ -4,12 +4,14 @@
     max-width: 100%;
     max-height: 88vh;
     overflow-y: auto;
+
     &_loading {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
     }
+
     &_item {
         width: 100% !important;
         height: 60px !important;
@@ -17,20 +19,71 @@
         justify-content: space-between;
         align-items: center;
         margin-bottom: 4px !important;
-        & > div {
+
+        &>div {
             height: 100% !important;
-            width: 18%;
+            width: 124px;
             background-color: #323133;
             box-shadow: 0 4px 4px #00000025 !important;
             display: flex;
             align-items: center;
-            justify-content: center;
             font-size: 20px;
             font-weight: 600;
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+
             &:last-child {
-                width: 81% !important;
+                width: 100% !important;
                 background-color: #b1b1b1 !important;
             }
+        }
+    }
+
+    &_el {
+        height: 80% !important;
+        color: #ffffff !important;
+        background-color: #606060 !important;
+        display: flex !important;
+        align-items: center !important;
+        font-size: 11px !important;
+        text-transform: capitalize;
+        font-weight: 400 !important;
+        padding: 0.4em !important;
+        box-shadow: 0px 0px 20px #00000025 !important;
+    }
+
+    &_header {
+        width: 100%;
+        height: 100% !important;
+        display: flex;
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+
+        &_span {
+            display: grid;
+            grid-template-columns: 124px auto;
+
+            &>div {
+                height: 100% !important;
+                width: 124px;
+                display: flex;
+                align-items: center;
+                font-size: 15px;
+                font-weight: 600;
+
+                &:last-child {
+                    width: 100% !important;
+                }
+            }
+        }
+
+        &>div {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: solid 1px #c6c6c6;
         }
     }
 }

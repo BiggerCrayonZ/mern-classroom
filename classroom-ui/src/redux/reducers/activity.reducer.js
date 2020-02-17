@@ -5,6 +5,8 @@ const defaultState = () => ({
   hourConflict: [],
   map: [],
   count: 0,
+  hMin: 0,
+  hMax: 0,
 });
 
 const initialState = { ...defaultState() };
@@ -19,12 +21,16 @@ export default function(state = initialState, action) {
         search,
         hourConflict,
         map,
+        hMin,
+        hMax,
       } = action;
       return {
         ...state,
         activities,
         hourConflict,
         map,
+        hMin,
+        hMax,
         count: search === '' ? (count) : state.count,
       };
     }

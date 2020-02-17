@@ -17,7 +17,9 @@ const Book = ({ activity, loading }) => {
   } else if (activity.map.length > 0) {
     return (
       <div className="book">
-        {activity.map.map(item => (<BookItem item={item} />))}
+        {activity.map.map(item => (
+          <BookItem item={item} spaces={activity.hMax - activity.hMin} />
+        ))}
       </div>
     );
   }

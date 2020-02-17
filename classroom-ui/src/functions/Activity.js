@@ -12,19 +12,19 @@ const getDurationPattern = el => {
     pattern = [...pattern, i];
     i++;
   } while (i < limit);
-  return pattern.map(x => (String(x)));
+  return pattern.map(x => String(x));
 };
 
 const getConflict = (pattern, act) => {
   let flag = false;
-  pattern.forEach((el) => {
+  pattern.forEach(el => {
     const { durationPattern } = el;
-    if (durationPattern.some(x => act.durationPattern.includes(x))){
+    if (durationPattern.some(x => act.durationPattern.includes(x))) {
       flag = true;
     }
   });
   return flag;
-}
+};
 
 export const normalizeActs = act => {
   const arr = act.map(x => ({
@@ -41,6 +41,15 @@ export const mapActivities = acts => {
   let pattern = {};
   let activities = [];
   let hourConflict = [];
+  let hMin = acts.reduce(
+    (min, p) => (p.startHour < min ? p.startHour : min),
+    acts[0].startHour
+  );
+  let hMax = acts.reduce(
+    (max, p) =>
+      p.startHour + p.duration > max ? p.startHour + p.duration : max,
+    acts[0].startHour + acts[0].duration
+  );
   acts.forEach(x => {
     const act = { ...x };
     const label = `${act.primaryLocation} - ${act.secondaryLocation}`;
@@ -71,7 +80,7 @@ export const mapActivities = acts => {
     });
     activities = [...activities, act];
   });
-  const map = Object.entries(pattern).map(x => ({ ...x[1] }));
+  let map = Object.entries(pattern).map(x => ({ ...x[1] }));
   map.sort((a, b) => {
     if (a.secondary > b.secondary) return 1;
     if (a.secondary < b.secondary) return -1;
@@ -82,7 +91,29 @@ export const mapActivities = acts => {
     if (a.primary < b.primary) return -1;
     return 0;
   });
-  return { map, pattern, hourConflict, activities };
+  map = map.map((y) => {
+    const _label = { ...y };
+    let flag = 0;
+    _label.row = _label.row.map((x, i) => {
+      const item = { ...x, before: 0 };
+      if (i > 0) {
+        item.before = item.startHour - flag;
+        flag = item.startHour + item.duration;
+      } else {
+        if (item.startHour > hMin) {
+          item.before = item.startHour - hMin;
+          flag = item.startHour + item.duration;
+        } else {
+          item.before = 0;
+          flag = item.startHour + item.duration;
+        }
+      }
+      // console.log({ item, flag })
+      return item;
+    })
+    return _label;
+  })
+  return { map, pattern, hourConflict, activities, hMin, hMax };
 };
 
 export default {
