@@ -56,12 +56,11 @@
         width: 100%;
         height: 100% !important;
         display: flex;
-        padding-left: 10px !important;
-        padding-right: 10px !important;
 
         &_span {
             display: grid;
             grid-template-columns: 124px auto;
+            padding: 0 !important;
 
             &>div {
                 height: 100% !important;
