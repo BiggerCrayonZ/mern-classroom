@@ -7,26 +7,13 @@ const multer = require("multer");
 var storage = multer.diskStorage({
   destination: function(req, file, cb) {
     const before = file.originalname.split(".");
-    let path = `./data/${before[before.length - 1]}`;
-    console.log({ path });
+    let path = `./uploads/${before[before.length - 1]}`;
     fs.exists(path, exists => {
       if (exists) cb(null, path);
       else {
-        fs.mkdir(path, err => {
-          console.log({ err });
-          if (err) {
-            path = `${__dirname}/data/${before[before.length - 1]}`;
-            fs.exists(path, existAgain => {
-              if (existAgain) cb(null, path);
-              else {
-                fs.mkdir(path, errAgain => {
-                  console.log({ errAgain })
-                  if (errAgain) cb("Error al crear directorio para archivo", false);
-                  else cb(null, path);
-                });
-              }
-            });
-          } else cb(null, path);
+        fs.mkdir(path, err1 => {
+          if (err1)cb(null, path);
+          else cb(null, path);
         });
       }
     });
@@ -44,6 +31,7 @@ var upload = multer({
     if (
       file.mimetype === "text/csv" ||
       file.mimetype === "application/vnd.ms-excel" ||
+      file.mimetype === "application/octet-stream" ||
       file.mimetype ===
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ) {

@@ -88,15 +88,13 @@ class ActivityController {
           .find(searchJson)
           .select(filterJson)
           .sort(sortJson);
-        if (acts.length > 0) {
-          const count = acts.length;
-          resolve({
-            success: true,
-            status: 200,
-            count,
-            result: acts,
-          });
-        } else reject({ status: 404, message: 'empty' });
+        const count = acts.length;
+        resolve({
+          success: true,
+          status: 200,
+          count,
+          result: acts,
+        });
       } catch (err) {
         reject({ status: 500, err });
       }

@@ -5,13 +5,15 @@ import { connect } from "react-redux";
 const BookHeader = ({ spaces, hMin }) => (
   <div className="book_header_span">
     <div></div>
-    <div className="book_header">
-      {Array(spaces)
-        .fill()
-        .map((x, i) => (
-          <div className="book_header_item">{`${i + hMin} : 00`}</div>
-        ))}
-    </div>
+    {spaces > 0 && (
+      <div className="book_header">
+        {Array(spaces)
+          .fill()
+          .map((x, i) => (
+            <div className="book_header_item">{`${i + hMin} : 00`}</div>
+          ))}
+      </div>
+    )}
   </div>
 );
 
