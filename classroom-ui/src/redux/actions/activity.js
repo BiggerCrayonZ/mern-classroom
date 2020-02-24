@@ -1,4 +1,7 @@
-import { GET_ALL_SUCCESS } from "../constants/activity.types";
+import {
+  GET_ALL_SUCCESS,
+  EMPTY_SUCCESS,
+} from "../constants/activity.types";
 import Activities from "../../api/Activities";
 import { normalizeActs, mapActivities } from "../../functions/Activity";
 
@@ -18,17 +21,17 @@ export function getAllActivities(sync = null, search = "") {
           const labels = mapActivities(act);
           console.log({ labels });
           const conflicts = Boolean(labels.hourConflict.length > 0);
-          if (sync && search === '') {
+          if (sync && search === "") {
             await Swal.fire({
-              icon: conflicts ? 'warning' : 'success',
-              title: `Sincronización completada ${conflicts ? 'con conflictos' : ''}`,
-              text: sync,
+              icon: conflicts ? "warning" : "success",
+              title: `Sincronización completada ${
+                conflicts ? "con conflictos" : ""
+              }`,
+              text: sync
             });
           }
           const { count } = data;
-          const {
-            activities, hourConflict, map, hMin, hMax
-          } = labels;
+          const { activities, hourConflict, map, hMin, hMax } = labels;
           await dispatch({
             type: GET_ALL_SUCCESS,
             activities,
@@ -37,7 +40,7 @@ export function getAllActivities(sync = null, search = "") {
             map,
             search,
             hMin,
-            hMax,
+            hMax
           });
           await dispatch(loaded("activity"));
         })
@@ -127,6 +130,39 @@ export function syncActivities(file = null) {
         });
     } catch (err) {
       console.log({ err });
+    }
+  };
+}
+
+export function deleteRegister() {
+  return async dispatch => {
+    await dispatch(loading("activity"));
+    await dispatch(loading("file"));
+    try {
+      const ActivityApi = new Activities();
+      const clean = await ActivityApi.clean();
+      console.log({ clean })
+      const { success } = clean.data;
+      if (success) {
+        await dispatch({ type: EMPTY_SUCCESS });
+        Swal.fire({
+          icon: "success",
+          title: "Registro limpio",
+        });
+      }
+      else {
+        Swal.fire({
+          icon: "error",
+          title: "Al eliminar hubo un error",
+          text:
+            "Parece que ocurrio un error al eliminar los registros, verifique con el administrador"
+        });
+      }
+    } catch (cleanErr) {
+      console.log({ cleanErr });
+    } finally {
+      await dispatch(loaded("activity"));
+      await dispatch(loaded("file"));
     }
   };
 }

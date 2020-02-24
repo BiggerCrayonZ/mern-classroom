@@ -2,10 +2,17 @@ import React from "react";
 import PropTypes from "prop-types";
 import "./ActivityController.scss";
 
-import { syncActivities } from '../../redux/actions/activity';
+import {
+  syncActivities,
+  deleteRegister,
+} from '../../redux/actions/activity';
 
 import { Chip, Fab } from "@material-ui/core";
-import { FormatListNumbered, Sync } from "@material-ui/icons";
+import {
+  FormatListNumbered,
+  Sync,
+  Clear,
+} from "@material-ui/icons";
 
 const ActivityController = ({ activity, dispatch }) => {
   const inputFileRef = React.useRef(null);
@@ -26,6 +33,14 @@ const ActivityController = ({ activity, dispatch }) => {
       )}
       {activity.count === 0 && <Chip color="primary" label="Sin registros" />}
       <div className="controller_file">
+        <Fab
+          size="small"
+          style={{ marginRight: '1em' }}
+          color="secondary"
+          onClick={() => dispatch(deleteRegister())}
+        >
+          <Clear />
+        </Fab>
         <input
           ref={inputFileRef}
           id="registerUpload"

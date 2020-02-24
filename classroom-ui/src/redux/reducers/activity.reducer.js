@@ -1,4 +1,7 @@
-import { GET_ALL_SUCCESS } from "../constants/activity.types";
+import {
+  GET_ALL_SUCCESS,
+  EMPTY_SUCCESS,
+} from "../constants/activity.types";
 
 const defaultState = () => ({
   activities: [],
@@ -34,6 +37,8 @@ export default function(state = initialState, action) {
         count: search === '' ? (count) : state.count,
       };
     }
+    case EMPTY_SUCCESS :
+      return defaultState();
     default:
       return state;
   }
