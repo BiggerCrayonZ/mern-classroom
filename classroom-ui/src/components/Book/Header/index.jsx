@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 
-const BookHeader = ({ spaces, hMin }) => (
+const BookHeader = ({ spaces, hMin, isLoading }) => (
   <div className="book_header_span">
     <div></div>
-    {spaces > 0 && (
+    {spaces > 0 && !isLoading && (
       <div className="book_header">
         {Array(spaces)
           .fill()
@@ -19,20 +19,24 @@ const BookHeader = ({ spaces, hMin }) => (
 
 BookHeader.propTypes = {
   spaces: PropTypes.number,
-  hMin: PropTypes.number
+  hMin: PropTypes.number,
+  isLoading: PropTypes.bool,
 };
 
 BookHeader.defaultProps = {
   spaces: 0,
-  hMin: 0
+  hMin: 0,
+  isLoading: false,
 };
 
-const mapStateToProps = ({ activity }) => {
+const mapStateToProps = ({ activity, load }) => {
   const { hMin, hMax } = activity;
   const spaces = hMax - hMin;
+  const isLoading = Boolean(load.activity);
   return {
+    isLoading,
     spaces,
-    hMin
+    hMin,
   };
 };
 

@@ -4,12 +4,12 @@
     max-width: 100%;
     max-height: 88vh;
     overflow-y: auto;
-
     &_loading {
         display: flex;
         justify-content: center;
         align-items: center;
         flex-direction: column;
+        min-height: 80vh;
     }
 
     &_item {
@@ -61,7 +61,7 @@
             display: grid;
             grid-template-columns: 124px auto;
             padding: 0 !important;
-
+            margin: auto;
             &>div {
                 height: 100% !important;
                 width: 124px;
