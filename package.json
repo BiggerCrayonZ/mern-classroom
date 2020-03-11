@@ -1,0 +1,16 @@
+{
+  "name": "CControl",
+  "version": "1.0.1",
+  "description": "Clarrom Control",
+  "main": "main.js",
+  "homepage": ".",
+  "repository": "https://github.com/BiggerCrayonZ/mern-classroom.git",
+  "author": "Raúl Enrique Reza del Castillo <32489142+BiggerCrayonZ@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "electron": "^8.1.0"
+  },
+  "scripts": {
+    "start": "electron ."
+  }
+}

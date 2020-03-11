@@ -27,8 +27,15 @@ app.use('/api/auth',require('./routes/auth.routes'));
 app.use('/api/user',require('./routes/user.routes'));
 
 /* Static and React Build */
-app.use(express.static(path.join(__dirname, '../../classroom-ui/build')));
-app.get('*', (req, res) => {
+app.use(express.static(__dirname));
+app.get("/*", function(req, res) {
+  res.sendFile(path.join(__dirname, "../../classroom-ui/build/index.html"));
+});
+// app.use(express.static(path.join(__dirname, '../../classroom-ui/build')));
+app.get('/test', function(req, res) {
+  res.send("Hello world! Lala Seth is here!");
+});
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname + '../../classroom-ui/build/index.html'))
 });
 
