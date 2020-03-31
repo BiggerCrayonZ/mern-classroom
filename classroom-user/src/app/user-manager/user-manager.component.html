@@ -1,0 +1,13 @@
+<div class="manager">
+  Manager
+  <div class="loader" *ngIf="loading">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  </div>
+  <div class="list-group-item list-group-item-action" *ngFor="let user of users$ | async">
+    <div class="media">
+      <div class="media-body">
+        <p class="mt-0">{{ user._id }}</p>
+      </div>
+    </div>
+  </div>
+</div>
