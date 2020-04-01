@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { UserService } from '../user.service';
 import { Observable } from 'rxjs';
-import { User } from '../shared/user';
+import { User } from '../shared/model/user';
+import { Header } from '../shared/model/header';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 
 @Component({
@@ -12,6 +13,7 @@ import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 export class UserManagerComponent implements OnInit {
 
   loading = false;
+  headers;
   users$: Observable<User[]>;
 
   @Input() token: string;
@@ -20,6 +22,7 @@ export class UserManagerComponent implements OnInit {
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
+    this.headers = this.userService.getTableHeader();
     this.users$ = this.userService.getUsers(this.token, this.filter)
       .pipe(
         tap(_ => this.loading = true),

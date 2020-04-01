@@ -1,12 +1,19 @@
 <div class="manager">
-  Manager
   <div class="loader" *ngIf="loading">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
-  <div class="list-group-item list-group-item-action" *ngFor="let user of users$ | async">
-    <div class="media">
-      <div class="media-body">
-        <p class="mt-0">{{ user._id }}</p>
+  <div class="manager_table">
+    <div class="manager_head">
+      <div class="manager_header fiveGrid">
+        <div *ngFor="let head of headers | async">{{ head.name }}</div>
+      </div>
+    </div>
+    <div class="manager_content">
+      <div [id]="user._id" class="fiveGrid" *ngFor="let user of users$ | async">
+        <div>{{ user.role }}</div>
+        <div>{{ user.username }}</div>
+        <div>{{ user.profile.firstName + ' ' + user.profile.lastName }}</div>
+        <div>{{ user.email }}</div>
       </div>
     </div>
   </div>

@@ -1,2 +1,45 @@
+
+.fiveGrid
+  display: grid
+  display: -moz-grid
+  grid-template-columns: 15% 15% 27.5% 27.5% 15%
+  height: 48px
+  padding: 0 2em !important
+  & > div
+    display: flex
+    align-items: center
+
 .manager
   width: 100%
+  &_row
+    width: 100%
+  &_content
+    display: flex
+    flex-direction: column
+    height: auto !important
+    width: 100%
+    max-height: 456px !important
+    overflow-y: auto
+    & > div 
+      height: 56px !important
+      border-bottom: 1px #ffffff solid
+      &:hover
+        background-color: #525252 !important
+        cursor: pointer
+      &:nth-child(odd)
+        background-color: #2C2B2D
+  &_head
+    width: 100%
+  &_header
+    color: #B1B1B1 !important
+    & > div
+      width: 100%
+      text-transform: uppercase !important
+      font-size: 12px
+  &_table
+    height: 100%
+    border-radius: 24px 24px 0 0 
+    background-color: #323133 !important
+    display: flex
+    flex-direction: column
+    align-items: center
