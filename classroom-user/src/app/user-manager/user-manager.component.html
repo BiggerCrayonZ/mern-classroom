@@ -1,4 +1,19 @@
 <div class="manager">
+  <div class="toolbar">
+    <div class="searchUser">
+      <mat-icon class="searchIcon" aria-hidden="false" aria-label="search">
+        search
+      </mat-icon>
+      <form class="searchForm">
+        <input type="text" name="searchUser" id="searchUser">
+      </form>
+    </div>
+    <button class="addUser">
+      <mat-icon title="New User" aria-hidden="false" aria-label="add User">
+        add
+      </mat-icon>
+    </button>
+  </div>
   <div class="loader" *ngIf="loading">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>

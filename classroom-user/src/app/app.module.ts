@@ -8,6 +8,7 @@ import { UserService } from './user.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     HttpClientModule,
     BrowserAnimationsModule,
     MatProgressBarModule,
+    MatIconModule,
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
