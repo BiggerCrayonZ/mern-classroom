@@ -1,7 +1,8 @@
 export class User {
-    _id: String;
-    username: String;
-    email: String;
-    role: String;
-    profile: Object;
+    _id: string;
+    username: string;
+    email: string;
+    role: string;
+    profile: object;
+    lastLogin: string;
   }
