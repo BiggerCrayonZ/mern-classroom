@@ -8,6 +8,7 @@ const userSchema = new Schema({
   role: String,
   options: Object,
   profile: Object,
+  lastLogin: String,
 });
 
 userSchema.index({ '$**': 'text' });

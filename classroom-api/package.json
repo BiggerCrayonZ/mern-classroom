@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
     "client": "cd ../classroom-ui && yarn start",
     "server": "nodemon src/index.js",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
