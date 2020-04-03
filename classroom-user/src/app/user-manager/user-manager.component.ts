@@ -32,4 +32,14 @@ export class UserManagerComponent implements OnInit {
       );
   }
 
+  refresh(): void {
+    this.users$ = this.userService.getUsers(this.token, this.filter)
+      .pipe(
+        tap(_ => this.loading = true),
+        debounceTime(3000),
+        distinctUntilChanged(),
+        tap(_ => this.loading = false)
+      );
+  }
+
 }
