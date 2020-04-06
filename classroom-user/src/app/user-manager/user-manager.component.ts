@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { User } from '../shared/model/user';
 import { Header } from '../shared/model/header';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { ModalService } from '../service/modal.service';
 
 @Component({
   selector: 'manager0-user-manager',
@@ -19,7 +20,7 @@ export class UserManagerComponent implements OnInit {
   @Input() token: string;
   @Input() filter: string;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private modalService: ModalService) { }
 
   ngOnInit(): void {
     this.headers = this.userService.getTableHeader();
@@ -40,6 +41,14 @@ export class UserManagerComponent implements OnInit {
         distinctUntilChanged(),
         tap(_ => this.loading = false)
       );
+  }
+
+  openModal(id: string): void {
+    this.modalService.open(id);
+  }
+
+  closeModal(id: string): void {
+    this.modalService.close(id);
   }
 
 }

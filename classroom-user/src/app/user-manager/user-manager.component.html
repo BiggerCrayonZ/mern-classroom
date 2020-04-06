@@ -9,12 +9,12 @@
       </form>
     </div>
     <div class="btnContainer">
-      <button class="addUser">
-        <mat-icon title="New User" aria-hidden="false" aria-label="add User" (click)="refresh()">
+      <button class="addUser" (click)="refresh()">
+        <mat-icon title="New User" aria-hidden="false" aria-label="add User">
           refresh
         </mat-icon>
       </button>
-      <button class="addUser">  
+      <button class="addUser" (click)="openModal('createUser')">
         <mat-icon title="New User" aria-hidden="false" aria-label="add User">
           add
         </mat-icon>
@@ -40,3 +40,7 @@
     </div>
   </div>
 </div>
+
+<manager0-modal id="createUser" title="Create User" size="240px">
+  Content
+</manager0-modal>

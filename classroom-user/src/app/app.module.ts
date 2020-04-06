@@ -9,11 +9,13 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { ModalComponent } from './shared/component/modal/modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     UserManagerComponent,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,

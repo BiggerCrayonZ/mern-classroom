@@ -1,0 +1,14 @@
+<div class="modal">
+  <div class="modal_body" [style.marginLeft]="size" [style.marginRight]="size">
+    <div class="modal_header">
+      <h1>{{ title }}</h1>
+      <button (click)="close()">
+        <mat-icon title="close modal" aria-hidden="false" aria-label="closeModal">
+          close
+        </mat-icon>
+      </button>
+    </div>
+    <ng-content></ng-content>
+  </div>
+</div>
+<div class="modal_bg"></div>
