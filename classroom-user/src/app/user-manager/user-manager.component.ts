@@ -6,6 +6,7 @@ import { Header } from '../shared/model/header';
 import { tap, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { ModalService } from '../service/modal.service';
 import { Role } from '../shared/model/role';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'manager0-user-manager',
@@ -61,6 +62,10 @@ export class UserManagerComponent implements OnInit {
 
   closeModal(id: string): void {
     this.modalService.close(id);
+  }
+
+  submit(data: NgForm) {
+    console.log({ data });
   }
 
 }

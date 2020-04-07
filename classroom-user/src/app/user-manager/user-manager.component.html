@@ -42,7 +42,7 @@
 </div>
 
 <manager0-modal id="createUser" title="Create User" size="425px">
-  <form class="addUser_form" action="">
+  <form class="addUser_form" autocomplete="off" (ngSubmit)="submit(create)" #create="ngForm">
     <div>
       <label for="username">User ID: </label>
       <input type="text" ngModel name="username" id="username">
@@ -53,12 +53,17 @@
     </div>
     <div>
       <label for="password">Password: </label>
-      <input type="password" ngModel name="password" id="password">
+      <input [class.inputInvalid] type="password" #password="ngModel" ngModel name="password" id="password">
     </div>
     <div>
       <label for="rePassword">Re - password: </label>
-      <input type="password" ngModel name="rePassword" id="rePassword">
+      <input type="password" #rePassword="ngModel" ngModel name="rePassword" id="rePassword">
     </div>
+    <small
+      *ngIf="password.value !== rePassword.value"
+    >
+      Las contraseñas deben ser identicas
+    </small>
     <div class="addUser_divider"></div>
     <div>
       <label for="role">Role: </label>
@@ -70,7 +75,7 @@
     </div>
     <div class="addUser_divider"></div>
     <div>
-      <button>Save</button>
+      <button type="submit">Save</button>
     </div>
   </form>
 </manager0-modal>
