@@ -4,6 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { User } from './shared/model/user';
+import { Role } from './shared/model/role';
 import { createUser } from './shared/model/createUser';
 
 @Injectable({
@@ -18,6 +19,17 @@ export class UserService {
 
   getTableHeader() {
     return this.http.get('/assets/headers.json');
+  }
+
+  getUserRoles(token: string): Observable<Role[]> {
+    const headers = new HttpHeaders()
+      .set('x-access-token', token)
+      .set('Content-Type', 'application/json');
+    const urlApi = `${this.endPoint}/role`;
+    return this.http.get<Role[]>(urlApi, { headers })
+      .pipe(
+        catchError(this.handleError<Role[]>('roles', []))
+      );
   }
 
   getUsers(token: string, filter: string): Observable<User[]> {

@@ -1,9 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+
 
 import { AppComponent } from './app.component';
 import { UserManagerComponent } from './user-manager/user-manager.component';
-import { HttpClientModule } from '@angular/common/http';
 import { UserService } from './user.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -23,6 +25,7 @@ import { ModalComponent } from './shared/component/modal/modal.component';
     BrowserAnimationsModule,
     MatProgressBarModule,
     MatIconModule,
+    FormsModule,
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
