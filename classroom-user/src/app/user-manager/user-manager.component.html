@@ -45,8 +45,13 @@
   <form class="addUser_form" autocomplete="off" (ngSubmit)="submit(create)" #create="ngForm">
     <div>
       <label for="username">User ID: </label>
-      <input type="text" ngModel name="username" id="username">
+      <input #username type="text" ngModel name="username" id="username">
     </div>
+    <small
+      *ngIf="userIdExist"
+    >
+      Ya existe ese ID en el banco de datos
+    </small>
     <div>
       <label for="email">Email:  </label>
       <input type="email" ngModel name="email" id="email">
