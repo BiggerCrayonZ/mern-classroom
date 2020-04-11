@@ -54,8 +54,13 @@
     </small>
     <div>
       <label for="email">Email:  </label>
-      <input type="email" ngModel name="email" id="email">
+      <input #email type="email" ngModel name="email" id="email">
     </div>
+    <small
+      *ngIf="emailExist"
+    >
+      Ya existe ese email en el banco de datos
+    </small>
     <div>
       <label for="password">Password: </label>
       <input [class.inputInvalid] type="password" #password="ngModel" ngModel name="password" id="password">

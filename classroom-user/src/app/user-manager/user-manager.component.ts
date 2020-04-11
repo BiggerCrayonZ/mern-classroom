@@ -27,17 +27,20 @@ import { NgForm } from '@angular/forms'
 })
 export class UserManagerComponent implements OnInit {
   loading = false
+  emailExist = false
   userIdExist = false
   headers
   users$: Observable<User[]>
   roles$: Observable<Role[]>
 
+  private emailSubscription: Subscription
   private usernameSubscription: Subscription
 
   @Input() token: string
   @Input() filter: string
 
   @ViewChild('username') searchUsername: any
+  @ViewChild('email') searchEmail: any
 
   constructor (
     private userService: UserService,
@@ -61,10 +64,16 @@ export class UserManagerComponent implements OnInit {
   }
 
   ngAfterViewInit () {
-    this.subscribeInputUsername()
+    this.subscribeUserIdExist()
+    this.subscribeEmailExist()
   }
 
-  subscribeInputUsername () {
+  evaluateIncludingParam (arr: Array<any>, criteria: string, mapParam: string) {
+    const chain: any = arr.map(x => x[mapParam].toLowerCase())
+    return Boolean(chain.includes(criteria.trim().toLowerCase()))
+  }
+
+  subscribeUserIdExist () {
     const terms$ = fromEvent<any>(
       this.searchUsername.nativeElement,
       'blur'
@@ -76,13 +85,31 @@ export class UserManagerComponent implements OnInit {
     )
     this.usernameSubscription = terms$.subscribe(toSearch => {
       this.users$.subscribe(data => {
-        const criteria: String = toSearch
-        const users: any = data.map(x => x.username.toLowerCase());
-        const exist: Boolean = users.includes(criteria.trim().toLowerCase());
-        console.log({ exist });
-        if (exist) {
+        if (this.evaluateIncludingParam(data, toSearch, 'username'))
           this.userIdExist = true
-        } else this.userIdExist = false
+        else this.userIdExist = false
+      })
+    })
+  }
+
+  subscribeEmailExist () {
+    console.log('hola')
+    const terms$ = fromEvent<any>(this.searchEmail.nativeElement, 'blur').pipe(
+      map(event => event.target.value),
+      startWith(''),
+      debounceTime(400),
+      distinctUntilChanged()
+    )
+    this.emailSubscription = terms$.subscribe(toSearch => {
+      this.users$.subscribe(data => {
+        const exist = this.evaluateIncludingParam(data, toSearch, 'email')
+        console.log({
+          exist,
+          toSearch,
+          data
+        })
+        if (exist) this.emailExist = true
+        else this.emailExist = false
       })
     })
   }
