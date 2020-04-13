@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "user": "cd ../classroom-user && ng serve -o --configuration=dev",
     "client": "cd ../classroom-ui && yarn start",
     "server": "nodemon src/index.js",
+    "server:ng": "concurrently --kill-others-on-fail \"yarn server\" \"yarn user\"",
     "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn client\""
   },
   "keywords": [],
@@ -14,6 +16,7 @@
   "dependencies": {
     "@fast-csv/format": "^4.0.2",
     "bcryptjs": "^2.4.3",
+    "currently": "^0.0.8",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "fast-csv": "^4.0.2",
