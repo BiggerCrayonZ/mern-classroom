@@ -78,7 +78,7 @@
     <div>
       <label for="role">Role: </label>
       <select ngModel name="role" id="role" required>
-        <option *ngFor="let role of roles$ | async" value="role.name">
+        <option *ngFor="let role of roles$ | async" [value]="role.name">
           {{ role.name }}
         </option>
       </select>

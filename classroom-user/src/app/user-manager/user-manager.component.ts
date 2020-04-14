@@ -8,7 +8,6 @@ import {
 import { UserService } from '../user.service'
 import { Observable, fromEvent, Subscription } from 'rxjs'
 import { User } from '../shared/model/user'
-import { Header } from '../shared/model/header'
 import {
   tap,
   debounceTime,
@@ -25,7 +24,7 @@ import { NgForm } from '@angular/forms'
   templateUrl: './user-manager.component.html',
   styleUrls: ['./user-manager.component.sass']
 })
-export class UserManagerComponent implements OnInit {
+export class UserManagerComponent implements OnInit, AfterViewInit {
   loading = false
   emailExist = false
   userIdExist = false
@@ -73,6 +72,17 @@ export class UserManagerComponent implements OnInit {
     return Boolean(chain.includes(criteria.trim().toLowerCase()))
   }
 
+  evaluateForm (value: object) {
+    const someEmpty: boolean = Object.entries(value)
+      .map(x => x[1])
+      .every(x => x !== '')
+    if (!someEmpty) {
+      return false
+    }
+    console.log('object')
+    return true
+  }
+
   subscribeUserIdExist () {
     const terms$ = fromEvent<any>(
       this.searchUsername.nativeElement,
@@ -93,7 +103,6 @@ export class UserManagerComponent implements OnInit {
   }
 
   subscribeEmailExist () {
-    console.log('hola')
     const terms$ = fromEvent<any>(this.searchEmail.nativeElement, 'blur').pipe(
       map(event => event.target.value),
       startWith(''),
@@ -103,11 +112,6 @@ export class UserManagerComponent implements OnInit {
     this.emailSubscription = terms$.subscribe(toSearch => {
       this.users$.subscribe(data => {
         const exist = this.evaluateIncludingParam(data, toSearch, 'email')
-        console.log({
-          exist,
-          toSearch,
-          data
-        })
         if (exist) this.emailExist = true
         else this.emailExist = false
       })
@@ -133,5 +137,18 @@ export class UserManagerComponent implements OnInit {
 
   submit (data: NgForm) {
     console.log({ data })
+    const {
+      form: { value }
+    } = data
+    if (this.evaluateForm(value)) {
+      const creation$ = this.userService.create(this.token, value).pipe(
+        tap(_ => (this.loading = true)),
+        distinctUntilChanged(),
+        tap(_ => (this.loading = false))
+      )
+      creation$.subscribe((data) => {
+        console.log({ data });
+      })
+    }
   }
 }
