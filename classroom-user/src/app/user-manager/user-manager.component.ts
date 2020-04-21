@@ -18,6 +18,7 @@ import {
 import { ModalService } from '../service/modal.service'
 import { Role } from '../shared/model/role'
 import { NgForm } from '@angular/forms'
+import swal from 'sweetalert2';
 
 @Component({
   selector: 'manager0-user-manager',
@@ -40,6 +41,8 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
 
   @ViewChild('username') searchUsername: any
   @ViewChild('email') searchEmail: any
+  @ViewChild('password') searchPassword: any
+  @ViewChild('rePassword') searchRepassword: any
 
   constructor (
     private userService: UserService,
@@ -136,7 +139,6 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
   }
 
   submit (data: NgForm) {
-    console.log({ data })
     const {
       form: { value }
     } = data
@@ -147,6 +149,14 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
         tap(_ => (this.loading = false))
       )
       creation$.subscribe((data) => {
+        this.refresh();
+        this.closeModal('createUser');
+        swal.fire({
+          icon: 'success',
+          title: 'User Created',
+          text: 'Something went wrong!',
+          footer: '<a href>Why do I have this issue?</a>'
+        })
         console.log({ data });
       })
     }

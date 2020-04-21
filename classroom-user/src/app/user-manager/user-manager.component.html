@@ -42,7 +42,7 @@
 </div>
 
 <manager0-modal id="createUser" title="Create User" size="425px">
-  <form class="addUser_form" autocomplete="off" (ngSubmit)="submit(create)" #create="ngForm">
+  <form class="addUser_form" autocomplete="off" (ngSubmit)="submit(create); create.reset();" #create="ngForm">
     <div>
       <label for="username">User ID: </label>
       <input #username type="text" ngModel name="username" id="username">
