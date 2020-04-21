@@ -37,7 +37,6 @@ export class UserService {
       .set('x-access-token', token)
       .set('Content-Type', 'application/json');
     const urlApi = `${this.endPoint}/user?filter=${filter}&sort=name:asc&search`;
-    console.log({ urlApi });
     return this.http.get<User[]>(urlApi, { headers })
       .pipe(
         catchError(this.handleError<User[]>('users', []))
@@ -52,6 +51,17 @@ export class UserService {
     return this.http.post<any>(urlApi, body, { headers })
       .pipe(
         catchError(this.handleError<any>('create', []))
+      );
+  }
+
+  delete(token: string, id): any {
+    const headers = new HttpHeaders()
+      .set('x-access-token', token)
+      .set('Content-Type', 'application/json');
+    const urlApi = `${this.endPoint}/user?id=${id}`;
+    return this.http.delete<object[]>(urlApi, { headers })
+      .pipe(
+        catchError(this.handleError<object[]>('delete', []))
       );
   }
 

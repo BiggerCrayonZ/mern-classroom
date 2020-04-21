@@ -5,7 +5,7 @@
         search
       </mat-icon>
       <form class="searchForm">
-        <input type="text" name="searchUser" id="searchUser">
+        <input type="text" name="searchUser" id="searchUser" />
       </form>
     </div>
     <div class="btnContainer">
@@ -34,44 +34,70 @@
       <div [id]="user._id" class="fiveGrid" *ngFor="let user of users$ | async">
         <div>{{ user.role }}</div>
         <div>{{ user.username }}</div>
-        <div>{{ user.lastLogin ? (user.lastLogin | date: 'MMM d, y, h:mm:ss a') : 'N/A' }}</div>
+        <div>
+          {{ user.lastLogin ? (user.lastLogin | date: 'MMM d, y, h:mm:ss a') :
+          'N/A' }}
+        </div>
         <div>{{ user.email }}</div>
+        <div class="actions">
+          <button class="addUser actions_delete" (click)="delete(user._id)">
+            <mat-icon
+              title="Remove {{ user.username }}"
+              aria-hidden="false"
+              aria-label="delete User"
+            >
+              delete
+            </mat-icon>
+          </button>
+        </div>
       </div>
     </div>
   </div>
 </div>
 
 <manager0-modal id="createUser" title="Create User" size="425px">
-  <form class="addUser_form" autocomplete="off" (ngSubmit)="submit(create); create.reset();" #create="ngForm">
+  <form
+    class="addUser_form"
+    autocomplete="off"
+    (ngSubmit)="submit(create); create.reset();"
+    #create="ngForm"
+  >
     <div>
       <label for="username">User ID: </label>
-      <input #username type="text" ngModel name="username" id="username">
+      <input #username type="text" ngModel name="username" id="username" />
     </div>
-    <small
-      *ngIf="userIdExist"
-    >
+    <small *ngIf="userIdExist">
       Ya existe ese ID en el banco de datos
     </small>
     <div>
-      <label for="email">Email:  </label>
-      <input #email type="email" ngModel name="email" id="email">
+      <label for="email">Email: </label>
+      <input #email type="email" ngModel name="email" id="email" />
     </div>
-    <small
-      *ngIf="emailExist"
-    >
+    <small *ngIf="emailExist">
       Ya existe ese email en el banco de datos
     </small>
     <div>
       <label for="password">Password: </label>
-      <input [class.inputInvalid] type="password" #password="ngModel" ngModel name="password" id="password">
+      <input
+        [class.inputInvalid]
+        type="password"
+        #password="ngModel"
+        ngModel
+        name="password"
+        id="password"
+      />
     </div>
     <div>
       <label for="rePassword">Re - password: </label>
-      <input type="password" #rePassword="ngModel" ngModel name="rePassword" id="rePassword">
+      <input
+        type="password"
+        #rePassword="ngModel"
+        ngModel
+        name="rePassword"
+        id="rePassword"
+      />
     </div>
-    <small
-      *ngIf="password.value !== rePassword.value"
-    >
+    <small *ngIf="password.value !== rePassword.value">
       Las contraseñas deben ser identicas
     </small>
     <div class="addUser_divider"></div>

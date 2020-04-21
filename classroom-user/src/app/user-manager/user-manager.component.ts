@@ -138,6 +138,24 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
     this.modalService.close(id)
   }
 
+  delete (id: string): void {
+    if (id.length > 0) {
+      const remove$ = this.userService.delete(this.token, id).pipe(
+        tap(_ => (this.loading = true)),
+        distinctUntilChanged(),
+        tap(_ => (this.loading = false))
+      )
+      remove$.subscribe((data) => {
+        this.refresh();
+        swal.fire({
+          icon: 'success',
+          title: 'User Removed',
+          text: data.message,
+        })
+      });
+    }
+  }
+
   submit (data: NgForm) {
     const {
       form: { value }
@@ -154,8 +172,7 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
         swal.fire({
           icon: 'success',
           title: 'User Created',
-          text: 'Something went wrong!',
-          footer: '<a href>Why do I have this issue?</a>'
+          text: `The user :${data.username} was created successfully`,
         })
         console.log({ data });
       })
