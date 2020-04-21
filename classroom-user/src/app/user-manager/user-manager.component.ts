@@ -82,7 +82,6 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
     if (!someEmpty) {
       return false
     }
-    console.log('object')
     return true
   }
 
@@ -174,7 +173,6 @@ export class UserManagerComponent implements OnInit, AfterViewInit {
           title: 'User Created',
           text: `The user :${data.username} was created successfully`,
         })
-        console.log({ data });
       })
     }
   }
