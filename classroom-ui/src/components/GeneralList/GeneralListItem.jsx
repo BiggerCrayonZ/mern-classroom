@@ -3,7 +3,10 @@ import PropTypes from "prop-types";
 
 const GeneralListItem = ({ item }) => {
   return (
-    <div className="generalList_item" title={`${item.title} - ${item.desc}`}>
+    <div
+      className={`generalList_item ${item.conflict && 'generalList_item_conflict'}`}
+      title={`${item.title} - ${item.desc}`}
+    >
       <div className="generalList_item_detail">
         <div>
           <span className="generalList_item_title">{item.title}</span>

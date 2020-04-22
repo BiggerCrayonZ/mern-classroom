@@ -27,7 +27,7 @@ export function getAllActivities(sync = null, search = "") {
               title: `Sincronización completada ${
                 conflicts ? "con conflictos" : ""
               }`,
-              text: sync
+              text: `${sync} ${conflicts ? 'con horarios que conflictuan favor de verificar y asignar en todo caso' : ''}`
             });
           }
           const { count } = data;

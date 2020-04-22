@@ -51,7 +51,7 @@ export const mapActivities = acts => {
     acts[0].startHour + acts[0].duration
   );
   acts.forEach(x => {
-    const act = { ...x };
+    const act = { ...x, conflict: false };
     const label = `${act.primaryLocation} - ${act.secondaryLocation}`;
     if (pattern[label] === undefined) {
       pattern = {
@@ -70,7 +70,6 @@ export const mapActivities = acts => {
         act.conflict = true;
       } else {
         pattern[label].row = [...pattern[label].row, act];
-        act.conflict = false;
       }
     }
     pattern[label].row.sort((a, b) => {
