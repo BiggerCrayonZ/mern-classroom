@@ -1,10 +1,9 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, Injector } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { createCustomElement } from '@angular/elements';
 
-
-import { AppComponent } from './app.component';
 import { UserManagerComponent } from './user-manager/user-manager.component';
 import { UserService } from './user.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -15,7 +14,6 @@ import { ModalComponent } from './shared/component/modal/modal.component';
 
 @NgModule({
   declarations: [
-    AppComponent,
     UserManagerComponent,
     ModalComponent,
   ],
@@ -27,7 +25,16 @@ import { ModalComponent } from './shared/component/modal/modal.component';
     MatIconModule,
     FormsModule,
   ],
+  exports: [
+    MatIconModule,
+  ],
   providers: [UserService],
-  bootstrap: [AppComponent]
+  entryComponents: [UserManagerComponent],
 })
-export class AppModule { }
+export class AppModule {
+  constructor(injector: Injector) {
+    const custom = createCustomElement(UserManagerComponent, {injector: injector});
+    customElements.define('manager0-user-manager', custom);
+  }
+  ngDoBootstrap() {}
+}

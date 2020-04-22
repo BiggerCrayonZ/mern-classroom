@@ -1,0 +1,27 @@
+[
+  {
+    "_id": 0,
+    "name": "Role",
+    "active": true
+  },
+  {
+    "_id": 0,
+    "name": "Username",
+    "active": true
+  },
+  {
+    "_id": 0,
+    "name": "Last Login",
+    "active": true
+  },
+  {
+    "_id": 0,
+    "name": "email",
+    "active": true
+  },
+  {
+    "_id": 0,
+    "name": "Actions",
+    "active": true
+  }
+]

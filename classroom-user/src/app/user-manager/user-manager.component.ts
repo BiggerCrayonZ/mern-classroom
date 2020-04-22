@@ -22,7 +22,7 @@ import { Role } from '../shared/model/role'
 import { NgForm } from '@angular/forms'
 
 @Component({
-  selector: 'manager0-user-manager',
+  // selector: 'manager0-user-manager',
   templateUrl: './user-manager.component.html',
   styleUrls: ['./user-manager.component.sass'],
 })

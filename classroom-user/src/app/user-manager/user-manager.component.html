@@ -12,14 +12,10 @@
     </div>
     <div class="btnContainer">
       <button class="addUser" (click)="refresh()">
-        <mat-icon title="New User" aria-hidden="false" aria-label="add User">
-          refresh
-        </mat-icon>
+        <mat-icon [svgIcon]="refresh" title="New User" aria-hidden="false" aria-label="add User"></mat-icon>
       </button>
       <button class="addUser" (click)="openModal('createUser')">
-        <mat-icon title="New User" aria-hidden="false" aria-label="add User">
-          add
-        </mat-icon>
+        <mat-icon [svgIcon]="add" title="New User" aria-hidden="false" aria-label="add User"></mat-icon >
       </button>
     </div>
   </div>
