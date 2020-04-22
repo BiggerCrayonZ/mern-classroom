@@ -1,6 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import { Launch } from '@material-ui/icons';
+import { ButtonBase } from '@material-ui/core';
+
 const GeneralListItem = ({ item }) => {
   return (
     <div
@@ -14,7 +17,17 @@ const GeneralListItem = ({ item }) => {
         </div>
         <div>
           <span className="generalList_item_hour">{`${item.start} - ${item.end}`}</span>
-          <span className="generalList_item_location">{`${item.primaryLocation} - ${item.secondaryLocation}`}</span>
+          <div className="generalList_item_footer">
+            <span className="generalList_item_location">{`${item.primaryLocation} - ${item.secondaryLocation}`}</span>
+            <div className="generalList_item_actions">
+              <ButtonBase
+                className={item.conflict && 'generalList_item_actions_con'}
+                title={`Ver detalles de ${item.title}`}
+              >
+                <Launch />
+              </ButtonBase>
+            </div>
+          </div>
         </div>
       </div>
     </div>
