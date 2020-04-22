@@ -3,8 +3,10 @@ import {
   OnInit,
   Input,
   ViewChild,
-  AfterViewInit
+  AfterViewInit,
+  ViewEncapsulation
 } from '@angular/core'
+import swal from 'sweetalert2';
 import { UserService } from '../user.service'
 import { Observable, fromEvent, Subscription } from 'rxjs'
 import { User } from '../shared/model/user'
@@ -18,12 +20,11 @@ import {
 import { ModalService } from '../service/modal.service'
 import { Role } from '../shared/model/role'
 import { NgForm } from '@angular/forms'
-import swal from 'sweetalert2';
 
 @Component({
   selector: 'manager0-user-manager',
   templateUrl: './user-manager.component.html',
-  styleUrls: ['./user-manager.component.sass']
+  styleUrls: ['./user-manager.component.sass'],
 })
 export class UserManagerComponent implements OnInit, AfterViewInit {
   loading = false

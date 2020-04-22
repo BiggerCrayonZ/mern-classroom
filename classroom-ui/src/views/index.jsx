@@ -8,12 +8,8 @@ import { getAllActivities } from "../redux/actions/activity";
 
 import Nav from "../components/Nav";
 import ControlPage from "./ControlPage";
+import UserPage from "./UserPage";
 
-const UserControl = () => (
-  <div className="w-100 h-100">
-    <h1>User Control</h1>
-  </div>
-);
 const MainView = ({ match, dispatch }) => {
   React.useEffect(() => {
     dispatch(getAllActivities());
@@ -31,7 +27,7 @@ const MainView = ({ match, dispatch }) => {
         <Route
           exact
           path={`${match.url}/user-control`}
-          component={UserControl}
+          component={UserPage}
         />
       </Switch>
     </div>
