@@ -115,7 +115,14 @@ export const mapActivities = acts => {
   return { map, pattern, hourConflict, activities, hMin, hMax };
 };
 
+export const singleFilterByParam = (param, value, arr) => {
+  const res = arr.filter(x => x[param] === value);
+  console.log({ res })
+  return res;
+};
+
 export default {
   normalizeActs,
-  mapActivities
+  mapActivities,
+  singleFilterByParam,
 };

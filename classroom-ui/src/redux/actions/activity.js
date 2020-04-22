@@ -1,6 +1,7 @@
 import {
   GET_ALL_SUCCESS,
   EMPTY_SUCCESS,
+  FILTER_BY_STATE_SUCCESS,
 } from "../constants/activity.types";
 import Activities from "../../api/Activities";
 import { normalizeActs, mapActivities } from "../../functions/Activity";
@@ -78,6 +79,12 @@ export function getAllActivities(sync = null, search = "") {
       console.log({ getAll: err });
     }
   };
+}
+
+export function filterByState(param, value) {
+  return async dispatch => {
+    await dispatch({ type: FILTER_BY_STATE_SUCCESS, param, value });
+  }
 }
 
 export function syncActivities(file = null) {

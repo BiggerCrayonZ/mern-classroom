@@ -1,3 +1,4 @@
 /* Auth */
 export const GET_ALL_SUCCESS = 'GET_ALL_SUCCESS';
 export const EMPTY_SUCCESS = 'EMPTY_SUCCESS';
+export const FILTER_BY_STATE_SUCCESS = 'FILTER_BY_STATE_SUCCESS';
