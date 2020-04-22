@@ -14,7 +14,7 @@ import { Warning } from "@material-ui/icons";
 import GeneralListItem from "./GeneralListItem";
 import GeneralListLabel from "./GeneralListLabel";
 
-const GeneralList = ({ loading, activities }) => {
+const GeneralList = ({ loading, activities, selectActivity }) => {
   let flag = 0;
 
   const setFlag = (_start) => {
@@ -41,7 +41,7 @@ const GeneralList = ({ loading, activities }) => {
             {activities.map(item => (
               <div key={`key_act_${item._id}`}>
                 {item.startHour !== flag && setFlag(item.startHour)}
-                <GeneralListItem item={item} />
+                <GeneralListItem item={item} selectActivity={selectActivity} />
               </div>
             ))}
         </div>
@@ -52,12 +52,14 @@ const GeneralList = ({ loading, activities }) => {
 
 GeneralList.propTypes = {
   activities: PropTypes.array,
-  loading: PropTypes.bool
+  loading: PropTypes.bool,
+  selectActivity: PropTypes.func,
 };
 
 GeneralList.defaultProps = {
   activities: [],
-  loading: false
+  loading: false,
+  selectActivity: () => {},
 };
 
 const mapStateToProps = ({ auth, activity, load }) => {

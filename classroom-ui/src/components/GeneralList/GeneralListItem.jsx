@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { Launch } from '@material-ui/icons';
 import { ButtonBase } from '@material-ui/core';
 
-const GeneralListItem = ({ item }) => {
+const GeneralListItem = ({ item, selectActivity }) => {
   return (
     <div
       className={`generalList_item ${item.conflict && 'generalList_item_conflict'}`}
@@ -23,6 +23,7 @@ const GeneralListItem = ({ item }) => {
               <ButtonBase
                 className={item.conflict && 'generalList_item_actions_con'}
                 title={`Ver detalles de ${item.title}`}
+                onClick={() => selectActivity(item)}
               >
                 <Launch />
               </ButtonBase>
@@ -35,7 +36,8 @@ const GeneralListItem = ({ item }) => {
 };
 
 GeneralListItem.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  selectActivity: PropTypes.func.isRequired,
 };
 
 export default GeneralListItem;
