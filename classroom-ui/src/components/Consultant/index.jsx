@@ -7,13 +7,18 @@ import {
   ListItem,
   ListItemText,
   Slide,
-  Typography
+  Typography,
+  Chip,
+  Divider,
+  ButtonBase,
+  Button
 } from '@material-ui/core'
 import './Consultant.scss'
 
 import Clock from '../Clock'
 import SearchBar from '../SearchBar'
 import GeneralList from '../GeneralList'
+import { Close } from '@material-ui/icons'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='right' ref={ref} {...props} />
@@ -25,6 +30,10 @@ const Consultant = () => {
   const selectActivity = act => {
     if (!act.title) return null
     setActSelected({ ...act, open: true })
+  }
+
+  const unSelectActivity = () => {
+    setActSelected({ open: false });
   }
 
   return (
@@ -52,7 +61,9 @@ const Consultant = () => {
                 }
                 secondary={
                   actSelected.subTitle ? (
-                    <Typography variant='subtitle2'>{actSelected.subTitle}</Typography>
+                    <Typography variant='subtitle2'>
+                      {actSelected.subTitle}
+                    </Typography>
                   ) : (
                     'Favor de seleccionar una actividad previamente.'
                   )
@@ -60,14 +71,47 @@ const Consultant = () => {
               />
             </ListItem>
             <DialogContent>
-              <DialogContentText variant='body2'>
+              <div className='modal_detail_hour'>
+                <div>
+                  <span>Fecha</span>
+                  <div>
+                    <Chip color='secondary' label={actSelected.date} />
+                  </div>
+                </div>
+                <div>
+                  <span>Estado</span>
+                  <div>
+                    {actSelected.conflict ? (
+                      <Button
+                        style={{ backgroundColor: '#FF5252' }}
+                      >
+                        Conflicto
+                      </Button>
+                    ) : (
+                      <Chip color='primary' label='Registrado' />
+                    )}
+                  </div>
+                </div>
+              </div>
+              <Divider style={{ width: '100%' }} />
+              <span>Descripción</span>
+              <DialogContentText variant='body2' paragraph noWrap>
                 {actSelected.desc
                   ? actSelected.desc
                   : 'Favor de seleccionar una actividad previamente.'}
               </DialogContentText>
             </DialogContent>
           </div>
-          <div>Cierre</div>
+          <div className="modal_detail_actions">
+            <div className="modal_detail_actions_header">
+              <ButtonBase
+                onClick={() => unSelectActivity()}
+              >
+                <Close />
+              </ButtonBase>
+            </div>
+            <Divider style={{ width: '100%' }} />
+          </div>
         </div>
       </Dialog>
     </div>
