@@ -7,7 +7,7 @@ import {
   DialogContentText,
   ListItem,
   ListItemText,
-  Slide,
+  Fade,
   Typography,
   Chip,
   Divider,
@@ -20,29 +20,31 @@ import {
   FormHelperText
 } from '@material-ui/core'
 import './Consultant.scss'
-
+import { getActivityAvailability } from '../../functions/Activity'
 import Clock from '../Clock'
 import SearchBar from '../SearchBar'
 import GeneralList from '../GeneralList'
 import { Close } from '@material-ui/icons'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
-  return <Slide direction='right' ref={ref} {...props} />
+  return <Fade ref={ref} {...props} />
 })
 
-const Consultant = ({ labels }) => {
+const Consultant = ({ map }) => {
   const [actSelected, setActSelected] = React.useState({
     open: false,
-    change: false
+    change: false,
+    available: []
   })
 
   const selectActivity = act => {
     if (!act.title) return null
-    setActSelected({ ...act, open: true, change: false })
+    const available = getActivityAvailability(act, map).sort();
+    setActSelected({ ...act, open: true, change: false, available })
   }
 
   const unSelectActivity = () => {
-    setActSelected({ open: false, change: false })
+    setActSelected({ open: false, change: false, available: [] })
   }
 
   const onInputChangeLoc = e => {
@@ -130,7 +132,7 @@ const Consultant = ({ labels }) => {
             <div className='modal_detail_actions_tools'>
               <FormControl>
                 <InputLabel shrink id='selectLocation'>
-                  Localización
+                  Localizaciones disponibles
                 </InputLabel>
                 <Select
                   labelId='selectLocation'
@@ -138,7 +140,7 @@ const Consultant = ({ labels }) => {
                   value={`${actSelected.primaryLocation} - ${actSelected.secondaryLocation}`}
                   onChange={e => onInputChangeLoc(e)}
                 >
-                  {labels.map(x => (
+                  {actSelected.available.map(x => (
                     <MenuItem value={x}>{x}</MenuItem>
                   ))}
                 </Select>
@@ -164,17 +166,16 @@ const Consultant = ({ labels }) => {
 }
 
 Consultant.propTypes = {
-  labels: PropTypes.array
+  map: PropTypes.array
 }
 
 Consultant.defaultProps = {
-  labels: []
+  map: []
 }
 
 const mapStateToProps = ({ activity }) => {
   const { map } = activity
-  const labels = map.map(x => x.label)
-  return { labels }
+  return { map }
 }
 
 export default connect(mapStateToProps)(Consultant)

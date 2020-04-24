@@ -59,6 +59,7 @@ export const mapActivities = acts => {
         [label]: {
           primary: act.primaryLocation,
           secondary: act.secondaryLocation,
+          durationPattern: [...act.durationPattern],
           label,
           row: [act]
         }
@@ -70,6 +71,7 @@ export const mapActivities = acts => {
         act.conflict = true;
       } else {
         pattern[label].row = [...pattern[label].row, act];
+        pattern[label].durationPattern = [...pattern[label].durationPattern, ...act.durationPattern];
       }
     }
     pattern[label].row.sort((a, b) => {
@@ -121,8 +123,17 @@ export const singleFilterByParam = (param, value, arr) => {
   return res;
 };
 
+export const getActivityAvailability = (act, map) => {
+  const available = map.filter(x => !x.durationPattern
+    .some(a => act.durationPattern.includes(a)))
+    .map(x => x.label);
+  const current = `${act.primaryLocation} - ${act.secondaryLocation}`;
+  return [...available, current];
+}
+
 export default {
   normalizeActs,
   mapActivities,
   singleFilterByParam,
+  getActivityAvailability,
 };
