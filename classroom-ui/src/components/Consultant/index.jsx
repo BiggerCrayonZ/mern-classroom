@@ -31,7 +31,10 @@ const Transition = React.forwardRef(function Transition (props, ref) {
 })
 
 const Consultant = ({ labels }) => {
-  const [actSelected, setActSelected] = React.useState({ open: false, change: false });
+  const [actSelected, setActSelected] = React.useState({
+    open: false,
+    change: false
+  })
 
   const selectActivity = act => {
     if (!act.title) return null
@@ -42,14 +45,14 @@ const Consultant = ({ labels }) => {
     setActSelected({ open: false, change: false })
   }
 
-  const onInputChangeLoc = (e) => {
-    const loc = e.target.value;
-    const locs = loc.split(' ');
+  const onInputChangeLoc = e => {
+    const loc = e.target.value
+    const locs = loc.split(' ')
     setActSelected({
       ...actSelected,
       primaryLocation: locs[0],
       secondaryLocation: locs[locs.length - 1],
-      change: true,
+      change: true
     })
   }
 
@@ -145,10 +148,12 @@ const Consultant = ({ labels }) => {
               </FormControl>
               <FormControl style={{ marginTop: 'auto' }}>
                 <Button
-                  variant="contained"
-                  color="primary"
+                  variant='contained'
+                  color='primary'
                   disabled={Boolean(!actSelected.change)}
-                >Guardar</Button>
+                >
+                  Guardar
+                </Button>
               </FormControl>
             </div>
           </div>
