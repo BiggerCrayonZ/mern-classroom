@@ -18,6 +18,22 @@ class Activities extends ConfigurationAPI {
         .then(response => resolve(response))
         .catch(loginErr => reject(loginErr.response));
     });
+  update = (act) =>
+    new Promise((resolve, reject) => {
+      const url = `${this.url}/activity/${act._id}`;
+      const body = {
+        title: act.title,
+        subTitle: act.subTitle,
+        desc: act.desc,
+        primaryLocation: act.primaryLocation,
+        secondaryLocation: act.secondaryLocation,
+        startHour: act.startHour,
+      };
+      axios
+        .put(url, body, this.headers)
+        .then(response => resolve(response))
+        .catch(loginErr => reject(loginErr.response));
+    });
   upload = (file) =>
     new Promise((resolve, reject) => {
       const url = `${this.url}/activity/file`;

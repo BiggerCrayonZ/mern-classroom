@@ -17,20 +17,24 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormHelperText
+  FormHelperText,
+  Collapse,
+  LinearProgress,
 } from '@material-ui/core'
 import './Consultant.scss'
-import { getActivityAvailability } from '../../functions/Activity'
+import Swal from 'sweetalert2'
 import Clock from '../Clock'
 import SearchBar from '../SearchBar'
 import GeneralList from '../GeneralList'
 import { Close } from '@material-ui/icons'
+import { getActivityAvailability } from '../../functions/Activity'
+import { updateActivity } from '../../redux/actions/activity'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Fade ref={ref} {...props} />
 })
 
-const Consultant = ({ map }) => {
+const Consultant = ({ map, updateLoading, dispatch }) => {
   const [actSelected, setActSelected] = React.useState({
     open: false,
     change: false,
@@ -39,7 +43,7 @@ const Consultant = ({ map }) => {
 
   const selectActivity = act => {
     if (!act.title) return null
-    const available = getActivityAvailability(act, map).sort();
+    const available = getActivityAvailability(act, map).sort()
     setActSelected({ ...act, open: true, change: false, available })
   }
 
@@ -56,6 +60,17 @@ const Consultant = ({ map }) => {
       secondaryLocation: locs[locs.length - 1],
       change: true
     })
+  }
+
+  const submitChanges = () => {
+    if (!actSelected.change) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Sin cambios registrados, necesita editar algo para guardarlo'
+      })
+      return null
+    }
+    dispatch(updateActivity(actSelected, unSelectActivity))
   }
 
   return (
@@ -139,6 +154,7 @@ const Consultant = ({ map }) => {
                   id='demo-simple-select-placeholder-label'
                   value={`${actSelected.primaryLocation} - ${actSelected.secondaryLocation}`}
                   onChange={e => onInputChangeLoc(e)}
+                  disabled={updateLoading}
                 >
                   {actSelected.available.map(x => (
                     <MenuItem value={x}>{x}</MenuItem>
@@ -149,13 +165,21 @@ const Consultant = ({ map }) => {
                 </FormHelperText>
               </FormControl>
               <FormControl style={{ marginTop: 'auto' }}>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  disabled={Boolean(!actSelected.change)}
-                >
-                  Guardar
-                </Button>
+                <Collapse in={updateLoading} style={{ width: '100%' }}>
+                  <LinearProgress />
+                </Collapse>
+                <Collapse in={!updateLoading} style={{ width: '100%' }}>
+                  <Button
+                    fullWidth
+                    variant='contained'
+                    color='primary'
+                    disabled={Boolean(!actSelected.change)}
+                    onClick={() => submitChanges()}
+                  >
+                    Guardar
+                  </Button>
+                </Collapse>
+                {console.log({ actSelected })}
               </FormControl>
             </div>
           </div>
@@ -166,16 +190,23 @@ const Consultant = ({ map }) => {
 }
 
 Consultant.propTypes = {
-  map: PropTypes.array
+  map: PropTypes.array,
+  updateLoading: PropTypes.bool,
+  dispatch: PropTypes.func
 }
 
 Consultant.defaultProps = {
-  map: []
+  map: [],
+  updateLoading: false,
+  dispatch: () => {}
 }
 
-const mapStateToProps = ({ activity }) => {
+const mapStateToProps = ({ activity, load }) => {
   const { map } = activity
-  return { map }
+  return {
+    map,
+    updateLoading: Boolean(load.activityUpdate)
+  }
 }
 
 export default connect(mapStateToProps)(Consultant)

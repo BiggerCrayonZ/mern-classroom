@@ -10,9 +10,9 @@ import { loading, loaded } from "./load";
 
 import Swal from "sweetalert2";
 
-export function getAllActivities(sync = null, search = "") {
+export function getAllActivities(sync = null, search = "", showLoading = true) {
   return async dispatch => {
-    await dispatch(loading("activity"));
+    if (showLoading) await dispatch(loading("activity"));
     try {
       const ActivityApi = new Activities();
       ActivityApi.getAll(search)
@@ -43,7 +43,7 @@ export function getAllActivities(sync = null, search = "") {
             hMin,
             hMax
           });
-          await dispatch(loaded("activity"));
+          if (showLoading) await dispatch(loaded("activity"));
         })
         .catch(async err => {
           if (Object.keys(err).length > 0) {
@@ -73,7 +73,7 @@ export function getAllActivities(sync = null, search = "") {
               text: err
             });
           }
-          await dispatch(loaded("activity"));
+          if (showLoading) await dispatch(loaded("activity"));
         });
     } catch (err) {
       console.log({ getAll: err });
@@ -172,4 +172,32 @@ export function deleteRegister() {
       await dispatch(loaded("file"));
     }
   };
+}
+
+export function updateActivity(act, trigger) {
+  return async dispatch => {
+    await dispatch(loading("activityUpdate"));
+    try {
+      const ActivityApi = new Activities();
+      const result = await ActivityApi.update(act);
+      if (result.status) {
+        Swal.fire({
+          icon: "success",
+          title: "Registro actualizado",
+        });
+        trigger();
+        await dispatch(getAllActivities(null, '', false));
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Al editar hubo un error",
+          text: result.msg,
+        });
+      }
+    } catch (err) {
+      console.log({ err });
+    } finally {
+      await dispatch(loaded("activityUpdate"));
+    }
+  }
 }
