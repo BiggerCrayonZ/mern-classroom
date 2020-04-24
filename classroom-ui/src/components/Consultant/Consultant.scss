@@ -10,6 +10,17 @@
         &_actions {
             display: flex;
             flex-direction: column;
+            &_tools {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 14px;
+                overflow-y: auto;
+                height: 100%;
+                & > div {
+                    width: 100%;
+                }
+            }
             &_header {
                 width: 100%;
                 display: flex;

@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 import {
   Dialog,
   DialogContent,
@@ -11,7 +12,12 @@ import {
   Chip,
   Divider,
   ButtonBase,
-  Button
+  Button,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  FormHelperText
 } from '@material-ui/core'
 import './Consultant.scss'
 
@@ -24,16 +30,27 @@ const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='right' ref={ref} {...props} />
 })
 
-const Consultant = () => {
-  const [actSelected, setActSelected] = React.useState({ open: false })
+const Consultant = ({ labels }) => {
+  const [actSelected, setActSelected] = React.useState({ open: false, change: false });
 
   const selectActivity = act => {
     if (!act.title) return null
-    setActSelected({ ...act, open: true })
+    setActSelected({ ...act, open: true, change: false })
   }
 
   const unSelectActivity = () => {
-    setActSelected({ open: false });
+    setActSelected({ open: false, change: false })
+  }
+
+  const onInputChangeLoc = (e) => {
+    const loc = e.target.value;
+    const locs = loc.split(' ');
+    setActSelected({
+      ...actSelected,
+      primaryLocation: locs[0],
+      secondaryLocation: locs[locs.length - 1],
+      change: true,
+    })
   }
 
   return (
@@ -82,9 +99,7 @@ const Consultant = () => {
                   <span>Estado</span>
                   <div>
                     {actSelected.conflict ? (
-                      <Button
-                        style={{ backgroundColor: '#FF5252' }}
-                      >
+                      <Button style={{ backgroundColor: '#FF5252' }}>
                         Conflicto
                       </Button>
                     ) : (
@@ -102,15 +117,40 @@ const Consultant = () => {
               </DialogContentText>
             </DialogContent>
           </div>
-          <div className="modal_detail_actions">
-            <div className="modal_detail_actions_header">
-              <ButtonBase
-                onClick={() => unSelectActivity()}
-              >
+          <div className='modal_detail_actions'>
+            <div className='modal_detail_actions_header'>
+              <ButtonBase onClick={() => unSelectActivity()}>
                 <Close />
               </ButtonBase>
             </div>
             <Divider style={{ width: '100%' }} />
+            <div className='modal_detail_actions_tools'>
+              <FormControl>
+                <InputLabel shrink id='selectLocation'>
+                  Localización
+                </InputLabel>
+                <Select
+                  labelId='selectLocation'
+                  id='demo-simple-select-placeholder-label'
+                  value={`${actSelected.primaryLocation} - ${actSelected.secondaryLocation}`}
+                  onChange={e => onInputChangeLoc(e)}
+                >
+                  {labels.map(x => (
+                    <MenuItem value={x}>{x}</MenuItem>
+                  ))}
+                </Select>
+                <FormHelperText>
+                  Primaria y secundaria ej. L - 101
+                </FormHelperText>
+              </FormControl>
+              <FormControl style={{ marginTop: 'auto' }}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  disabled={Boolean(!actSelected.change)}
+                >Guardar</Button>
+              </FormControl>
+            </div>
           </div>
         </div>
       </Dialog>
@@ -118,9 +158,18 @@ const Consultant = () => {
   )
 }
 
-const mapStateToProps = ({ auth }) => {
-  const { user } = auth
-  return { user }
+Consultant.propTypes = {
+  labels: PropTypes.array
+}
+
+Consultant.defaultProps = {
+  labels: []
+}
+
+const mapStateToProps = ({ activity }) => {
+  const { map } = activity
+  const labels = map.map(x => x.label)
+  return { labels }
 }
 
 export default connect(mapStateToProps)(Consultant)

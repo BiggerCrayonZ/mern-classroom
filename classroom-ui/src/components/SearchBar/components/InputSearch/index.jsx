@@ -90,7 +90,7 @@ const InputSearch = ({ refresh, search, singleFilter, filterParam }) => {
             <ListItemIcon>
               <Block style={{ color: conflictFilterSelected ? '#FF5252' : '' }} />
             </ListItemIcon>
-            <ListItemText primary={`Filtrar conflictos ${conflictFilterSelected && 'seleccionado'}`} />
+            <ListItemText primary={`Filtrar conflictos ${conflictFilterSelected ? 'seleccionado' : ''}`} />
           </ListItem>
         </List>
       </Popover>
