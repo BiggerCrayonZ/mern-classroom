@@ -17,7 +17,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  FormHelperText,
   Collapse,
   LinearProgress,
 } from '@material-ui/core'
@@ -27,28 +26,41 @@ import Clock from '../Clock'
 import SearchBar from '../SearchBar'
 import GeneralList from '../GeneralList'
 import { Close } from '@material-ui/icons'
-import { getActivityAvailability } from '../../functions/Activity'
+import {
+    getActivityAvailability,
+    timeConvert,
+    getActivityHourDisp,
+} from '../../functions/Activity'
 import { updateActivity } from '../../redux/actions/activity'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Fade ref={ref} {...props} />
 })
 
-const Consultant = ({ map, updateLoading, dispatch }) => {
+const Consultant = ({ map, hMin, updateLoading, dispatch }) => {
   const [actSelected, setActSelected] = React.useState({
     open: false,
     change: false,
-    available: []
+    available: [],
+    rowPattern: [],
+    startHour: 7,
   })
 
   const selectActivity = act => {
     if (!act.title) return null
     const available = getActivityAvailability(act, map).sort()
-    setActSelected({ ...act, open: true, change: false, available })
+    const rowPattern = getActivityHourDisp(act, map)
+    setActSelected({ ...act, open: true, change: false, available, rowPattern })
   }
 
   const unSelectActivity = () => {
-    setActSelected({ open: false, change: false, available: [] })
+    setActSelected({
+      startHour: 7,
+      open: false,
+      change: false,
+      available: [],
+      rowPattern: [],
+    })
   }
 
   const onInputChangeLoc = e => {
@@ -58,6 +70,16 @@ const Consultant = ({ map, updateLoading, dispatch }) => {
       ...actSelected,
       primaryLocation: locs[0],
       secondaryLocation: locs[locs.length - 1],
+      change: true
+    })
+  }
+
+  const onInputChangeH = e => {
+    const strTemp = e.target.value
+    const startHour = Number(strTemp.split(':')[0])
+    setActSelected({
+      ...actSelected,
+      startHour,
       change: true
     })
   }
@@ -157,12 +179,32 @@ const Consultant = ({ map, updateLoading, dispatch }) => {
                   disabled={updateLoading}
                 >
                   {actSelected.available.map(x => (
-                    <MenuItem value={x}>{x}</MenuItem>
+                    <MenuItem key={`key_${x}`} value={x}>{x}</MenuItem>
                   ))}
                 </Select>
-                <FormHelperText>
-                  Primaria y secundaria ej. L - 101
-                </FormHelperText>
+              </FormControl>
+              {console.log({ actSelected, timeCon: timeConvert((actSelected.startHour) * 60 * 60) })}
+              <FormControl>
+                <InputLabel shrink id='selectInitHour'>
+                  Hora que inicia
+                </InputLabel>
+                <Select
+                  labelId='selectInitHour'
+                  id='selectionInitHour'
+                  value={timeConvert((actSelected.startHour) * 60 * 60)}
+                  onChange={e => onInputChangeH(e)}
+                  disabled={updateLoading}
+                >
+                  {actSelected.rowPattern.map((x) => (
+                    <MenuItem
+                      key={`key_${x}`}
+                      value={timeConvert(x * 60 * 60) }
+                      disabled={actSelected.durationPattern.includes(x)}
+                    >
+                      {timeConvert(x * 60 * 60)}
+                    </MenuItem>
+                  ))}
+                </Select>
               </FormControl>
               <FormControl style={{ marginTop: 'auto' }}>
                 <Collapse in={updateLoading} style={{ width: '100%' }}>
@@ -190,22 +232,25 @@ const Consultant = ({ map, updateLoading, dispatch }) => {
 }
 
 Consultant.propTypes = {
+  hMin: PropTypes.number,
   map: PropTypes.array,
   updateLoading: PropTypes.bool,
   dispatch: PropTypes.func
 }
 
 Consultant.defaultProps = {
+  hMin: 0,
   map: [],
   updateLoading: false,
   dispatch: () => {}
 }
 
 const mapStateToProps = ({ activity, load }) => {
-  const { map } = activity
+  const { map, hMin, hMax } = activity
   return {
     map,
-    updateLoading: Boolean(load.activityUpdate)
+    updateLoading: Boolean(load.activityUpdate),
+    hMin,
   }
 }
 

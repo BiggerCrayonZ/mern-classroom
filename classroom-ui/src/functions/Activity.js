@@ -1,4 +1,32 @@
-function timeConvert(num) {
+function getStandarPattern() {
+  return [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+  ]
+}
+
+export function timeConvert(num) {
   let date = new Date(null);
   date.setSeconds(num);
   return date.toISOString().substr(11, 5);
@@ -131,9 +159,29 @@ export const getActivityAvailability = (act, map) => {
   return [...available, current];
 }
 
+export const getActivityHourDisp = (act, map) => {
+  const { primaryLocation, secondaryLocation } = act;
+  const labels = map.filter(x =>
+    x.primary === primaryLocation
+    && x.secondary === secondaryLocation
+  );
+  if (labels.length === 0) return [];
+  const label = labels[0];
+  let { durationPattern } = label;
+  durationPattern = durationPattern.filter(x => 
+    !act.durationPattern.includes(x)
+  );
+  const generalPattern = getStandarPattern().filter(x =>
+    !durationPattern.includes(x)
+  );
+  return generalPattern;
+}
+
 export default {
+  timeConvert,
   normalizeActs,
   mapActivities,
+  getActivityHourDisp,
   singleFilterByParam,
   getActivityAvailability,
 };

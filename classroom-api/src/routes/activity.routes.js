@@ -127,14 +127,16 @@ router.put("/:id", verifyToken, async (req, res) => {
     subTitle,
     desc,
     primaryLocation,
-    secondaryLocation
+    secondaryLocation,
+    startHour,
   } = req.body;
   const newActivity = {
     title,
     subTitle,
     desc,
     primaryLocation,
-    secondaryLocation
+    secondaryLocation,
+    startHour,
   };
   await Activity.findByIdAndUpdate(req.params.id, newActivity);
   res.json({ status: "success", newActivity });
