@@ -168,12 +168,8 @@ export const getActivityHourDisp = (act, map) => {
   if (labels.length === 0) return [];
   const label = labels[0];
   let { durationPattern } = label;
-  durationPattern = durationPattern.filter(x => 
-    !act.durationPattern.includes(x)
-  );
-  const generalPattern = getStandarPattern().filter(x =>
-    !durationPattern.includes(x)
-  );
+  durationPattern = durationPattern.filter(x => !act.durationPattern.includes(x));
+  const generalPattern = getStandarPattern().filter(x => !durationPattern.includes(x));
   return generalPattern;
 }
 

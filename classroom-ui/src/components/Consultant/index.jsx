@@ -246,7 +246,7 @@ Consultant.defaultProps = {
 }
 
 const mapStateToProps = ({ activity, load }) => {
-  const { map, hMin, hMax } = activity
+  const { map, hMin } = activity
   return {
     map,
     updateLoading: Boolean(load.activityUpdate),
