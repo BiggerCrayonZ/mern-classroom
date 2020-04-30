@@ -33,5 +33,5 @@ exports.generalCallback = (origin, err) => {
             json.status = 500;
             break;
     }
-    return json;
+    return { ...json, err };
 }
