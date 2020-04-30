@@ -40,6 +40,10 @@ const Activity = require("../models/activity");
 const activityController = require("../controllers/activity.controller");
 // Token
 const verifyToken = require("../token/verify.token");
+// error
+const {
+  generalCallback,
+} = require("../error/activity.error");
 
 router.get("/", verifyToken, async (req, res) => {
   const search = req.query.search || "";
@@ -140,6 +144,20 @@ router.put("/:id", verifyToken, async (req, res) => {
   };
   await Activity.findByIdAndUpdate(req.params.id, newActivity);
   res.json({ status: "success", newActivity });
+});
+
+router.delete("/:id", verifyToken, async (req, res) => {
+  try {
+    const response = await Activity.findByIdAndDelete(req.params.id);
+    if (response !== null) res.status(200).json({ response, status: 200 });
+    else {
+      const resError = generalCallback('deleteSingle', { kind: 'ObjectId' });
+      res.status(resError.status).json({ ...resError });
+    }
+  } catch (err) {
+    const resError = generalCallback('deleteSingle', err);
+    res.status(resError.status).json({ ...resError });
+  }
 });
 
 router.delete("/empty", verifyToken, async (req, res) => {
