@@ -1,7 +1,7 @@
 import {
-  GET_ALL_SUCCESS,
   EMPTY_SUCCESS,
   FILTER_BY_STATE_SUCCESS,
+  GET_ALL_SUCCESS,
 } from "../constants/activity.types";
 import Activities from "../../api/Activities";
 import { normalizeActs, mapActivities } from "../../functions/Activity";
@@ -139,6 +139,41 @@ export function syncActivities(file = null) {
       console.log({ err });
     }
   };
+}
+
+export function remove(id = null, trigger) {
+  return async dispatch => {
+    await dispatch(loading("remove"));
+    try {
+      Swal.fire({
+        title: 'Atención',
+        text: '¿Está seguro de eliminar la actividad?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '!Si, hazlo¡'
+      }).then(async (result) => {
+        if (result.value) {
+          const ActivityApi = new Activities();
+          await ActivityApi.remove(id);
+          Swal.fire(
+            '!Eliminado¡',
+            'Se a borrado la actividad',
+            'success'
+          );
+          trigger();
+          await dispatch(getAllActivities(null, '', false));
+        }
+      })
+    } catch (err) {
+      Swal.fire({
+        icon: "error",
+        title: err.message,
+      });
+    }
+    await dispatch(loaded("remove"));
+  }
 }
 
 export function deleteRegister() {

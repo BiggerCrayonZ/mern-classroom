@@ -31,7 +31,10 @@ import {
     timeConvert,
     getActivityHourDisp,
 } from '../../functions/Activity'
-import { updateActivity } from '../../redux/actions/activity'
+import {
+  remove,
+  updateActivity,
+} from '../../redux/actions/activity'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Fade ref={ref} {...props} />
@@ -161,6 +164,9 @@ const Consultant = ({ map, hMin, updateLoading, dispatch }) => {
           </div>
           <div className='modal_detail_actions'>
             <div className='modal_detail_actions_header'>
+              <Button onClick={() => dispatch(remove(actSelected._id, unSelectActivity))}>
+                Eliminar
+              </Button>
               <ButtonBase onClick={() => unSelectActivity()}>
                 <Close />
               </ButtonBase>

@@ -10,6 +10,14 @@ class Activities extends ConfigurationAPI {
         .then(response => resolve(response))
         .catch(loginErr => reject(loginErr.response));
     });
+  remove = (id) => 
+    new Promise((resolve, reject) => {
+      const url = `${this.url}/activity/${id}`;
+      axios
+        .delete(url, this.headers)
+        .then(response => resolve(response))
+        .catch(loginErr => reject(loginErr.response));
+    });
   clean = () =>
     new Promise((resolve, reject) => {
       const url = `${this.url}/activity/empty`;
