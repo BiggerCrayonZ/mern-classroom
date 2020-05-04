@@ -10,11 +10,35 @@ class Activities extends ConfigurationAPI {
         .then(response => resolve(response))
         .catch(loginErr => reject(loginErr.response));
     });
+  remove = (id) => 
+    new Promise((resolve, reject) => {
+      const url = `${this.url}/activity/${id}`;
+      axios
+        .delete(url, this.headers)
+        .then(response => resolve(response))
+        .catch(loginErr => reject(loginErr.response));
+    });
   clean = () =>
     new Promise((resolve, reject) => {
       const url = `${this.url}/activity/empty`;
       axios
         .delete(url, this.headers)
+        .then(response => resolve(response))
+        .catch(loginErr => reject(loginErr.response));
+    });
+  update = (act) =>
+    new Promise((resolve, reject) => {
+      const url = `${this.url}/activity/${act._id}`;
+      const body = {
+        title: act.title,
+        subTitle: act.subTitle,
+        desc: act.desc,
+        primaryLocation: act.primaryLocation,
+        secondaryLocation: act.secondaryLocation,
+        startHour: act.startHour,
+      };
+      axios
+        .put(url, body, this.headers)
         .then(response => resolve(response))
         .catch(loginErr => reject(loginErr.response));
     });

@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import SearchBar from './SearchBar';
 
-const mapStateToProps = ({ auth }) => {
-    const { user } = auth;
+const mapStateToProps = ({ activity }) => {
+    const { filterParam } = activity;
     return {
-      user
+      filterParam
     };
   };
 

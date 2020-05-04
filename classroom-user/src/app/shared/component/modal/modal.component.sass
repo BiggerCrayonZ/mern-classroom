@@ -1,0 +1,55 @@
+:host
+    visibility: hidden
+    .modal
+        position: fixed
+        top: 0
+        right: 0
+        bottom: 0
+        left: 0
+        z-index: 1010
+        overflow: auto
+        opacity: 0
+        &_header
+            width: 100%
+            display: flex
+            align-items: center
+            justify-content: space-between
+            & > button
+                border: none
+                background-color: #ffffff
+                height: 42px
+                width: 42px
+                cursor: pointer
+        &_body
+            margin-top: 124px
+            margin-left: auto
+            margin-right: auto
+            padding-left: 20px
+            padding-right: 20px
+            padding-bottom: 20px
+            background: #ffffff
+            border-radius: 16px
+            display: flex
+            flex-direction: column
+            align-items: center
+            & > div
+                width: 100%
+        &_vis
+            position: fixed
+            top: 0
+            right: 0
+            bottom: 0
+            left: 0
+            background-color: #000000
+            opacity: 0.75 !important
+            z-index: 1000
+            transition: opacity 0.5s ease !important
+        &_dis
+            opacity: 1 !important
+            transition: opacity 0.5s ease !important
+            transition-delay: 0.2s !important
+        &_bg
+            opacity: 0
+            transition: opacity 0.5s ease !important
+        &_open
+            overflow: hidden

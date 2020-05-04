@@ -1,0 +1,149 @@
+
+.fiveGrid
+  display: grid
+  display: -moz-grid
+  grid-template-columns: 15% 15% 27.5% 27.5% 15%
+  height: 48px
+  padding: 0 2em !important
+  & > div
+    display: flex
+    font-size: 13px
+    align-items: center
+
+.btnContainer
+  width: 25%
+  display: flex
+  align-items: center
+  justify-content: flex-end
+  & > button
+    outline: none
+    margin-left: 12px
+
+.actions
+  display: flex
+  align-items: center
+  &_delete
+    background-color: #FF5252
+    &:hover
+      & > mat-icon
+        color: #FF5252 !important
+  & > button
+    width: 36px
+    height: 36px
+    border-radius: 8px
+    & > mat-icon
+      color: #ffffff
+
+
+.addUser
+  border: none
+  text-decoration: none
+  border-radius: 50%
+  display: flex
+  align-items: center
+  justify-content: center
+  height: 48px
+  width: 48px
+  &_divider
+    width: 100%
+    border-bottom: 1px solid #a4a4a4
+    margin: 0.4em 0
+  &_form
+    width: 100%
+    height: 100%
+    display: flex
+    flex-direction: column
+    & > div
+      margin: 0.6em 0
+      display: flex
+      justify-content: space-between
+      align-items: center
+      & > label
+        width: 45%
+        text-align: right
+        padding-right: 16px
+      & > input, select, button
+        width: 100%
+        border-radius: 10em
+        padding: 0.4em
+  &:hover
+    background-color: #ffffff
+    cursor: pointer
+
+.searchUser
+  width: 75%
+  height: 48px
+  background-color: #B1B1B1
+  border-radius: 10em
+  display: flex
+  align-items: center
+  padding-left: 1em
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+.searchIcon
+  width: 48px
+  height: 48px
+  display: flex
+  align-items: center
+  justify-content: center
+
+.searchForm
+  height: 36px
+  width: 100%
+  padding-right: 2em
+  & > input
+    width: 100%
+    height: 100%
+    padding: 0 !important
+    border: none
+    font-size: 1.2em
+    background-color: rgba(0, 0, 0, 0)
+    color: #ffffff
+    &:focus
+      outline: none !important
+.toolbar
+  height: 64px
+  background-color: #323133
+  box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.75)
+  margin-bottom: 24px
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 0 1em
+
+.manager
+  width: 100%
+  &_row
+    width: 100%
+  &_content
+    display: flex
+    flex-direction: column
+    height: auto !important
+    width: 100%
+    max-height: 456px !important
+    overflow-y: auto
+    & > div 
+      height: 56px !important
+      border-bottom: 1px #ffffff solid
+      &:hover
+        background-color: #525252 !important
+        cursor: pointer
+      &:nth-child(odd)
+        background-color: #2C2B2D
+  &_head
+    width: 100%
+  &_header
+    color: #B1B1B1 !important
+    & > div
+      width: 100%
+      text-transform: uppercase !important
+      font-size: 12px
+  &_table
+    height: 100%
+    border-radius: 24px 24px 0 0 
+    background-color: #323133 !important
+    display: flex
+    flex-direction: column
+    align-items: center

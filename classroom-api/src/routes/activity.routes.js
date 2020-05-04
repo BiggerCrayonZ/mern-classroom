@@ -2,38 +2,31 @@ const ex = require("express");
 const router = ex.Router();
 /* Fs */
 const fs = require("fs");
+const fse = require("fs-extra");
 // Multer
 const multer = require("multer");
 var storage = multer.diskStorage({
-  destination: function(req, file, cb) {
+  destination: async function (req, file, cb) {
     const before = file.originalname.split(".");
     let path = `./uploads/${before[before.length - 1]}`;
-    fs.exists(path, exists => {
-      if (exists) cb(null, path);
-      else {
-        fs.mkdir(path, err1 => {
-          if (err1)cb(null, path);
-          else cb(null, path);
-        });
-      }
-    });
+    await fse.ensureDir(path);
+    cb(null, path);
   },
-  filename: function(req, file, cb) {
+  filename: function (req, file, cb) {
     cb(null, file.originalname);
   }
 });
-var upload = multer({ storage: storage });
 
 var upload = multer({
   storage: storage,
-  fileFilter: function(req, file, cb) {
+  fileFilter: function (req, file, cb) {
     console.log({ file });
     if (
       file.mimetype === "text/csv" ||
       file.mimetype === "application/vnd.ms-excel" ||
       file.mimetype === "application/octet-stream" ||
       file.mimetype ===
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     ) {
       cb(null, true);
     } else {
@@ -47,6 +40,10 @@ const Activity = require("../models/activity");
 const activityController = require("../controllers/activity.controller");
 // Token
 const verifyToken = require("../token/verify.token");
+// error
+const {
+  generalCallback,
+} = require("../error/activity.error");
 
 router.get("/", verifyToken, async (req, res) => {
   const search = req.query.search || "";
@@ -108,7 +105,7 @@ router.post("/bulk", verifyToken, async (req, res) => {
 });
 
 router.post("/file", verifyToken, (req, res) => {
-  upload(req, res, function(err) {
+  upload(req, res, function (err) {
     if (err instanceof multer.MulterError) {
       res.status(400).json({ activityErr: err, type: "multer" });
     } else if (err) {
@@ -134,17 +131,33 @@ router.put("/:id", verifyToken, async (req, res) => {
     subTitle,
     desc,
     primaryLocation,
-    secondaryLocation
+    secondaryLocation,
+    startHour,
   } = req.body;
   const newActivity = {
     title,
     subTitle,
     desc,
     primaryLocation,
-    secondaryLocation
+    secondaryLocation,
+    startHour,
   };
   await Activity.findByIdAndUpdate(req.params.id, newActivity);
   res.json({ status: "success", newActivity });
+});
+
+router.delete("/:id", verifyToken, async (req, res) => {
+  try {
+    const response = await Activity.findByIdAndDelete(req.params.id);
+    if (response !== null) res.status(200).json({ response, status: 200 });
+    else {
+      const resError = generalCallback('deleteSingle', { kind: 'ObjectId' });
+      res.status(resError.status).json({ ...resError });
+    }
+  } catch (err) {
+    const resError = generalCallback('deleteSingle', err);
+    res.status(resError.status).json({ ...resError });
+  }
 });
 
 router.delete("/empty", verifyToken, async (req, res) => {

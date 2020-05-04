@@ -16,6 +16,7 @@ export const setInitUrl = url => ({
 
 export function login(data) {
   return async (dispatch) => {
+    await dispatch(loading('logIn'));
     try {
       const UserApi = new User();
       UserApi.logIn({ ...data })
@@ -68,6 +69,7 @@ export function login(data) {
     } catch (loginErr) {
       console.log({ loginErr });
     }
+    await dispatch(loaded('logIn'));
   };
 }
 

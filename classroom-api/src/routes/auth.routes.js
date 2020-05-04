@@ -2,9 +2,6 @@ const ex = require("express");
 const router = ex.Router();
 const userController = require("../controllers/user.controller");
 
-const jwt = require("jsonwebtoken");
-const config = require("../jwt.config");
-
 const verifyToken = require("../token/verify.token");
 
 router.post("/signup", (req, res, next) => {
@@ -28,7 +25,7 @@ router.get("/me", verifyToken, (req, res, next) => {
     });
 });
 
-router.post("/signin", (req, res, next) => {
+router.post("/signin", (req, res) => {
   const controller = new userController();
   const body = { ...req.body };
   controller

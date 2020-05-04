@@ -5,6 +5,8 @@ import Swal from "sweetalert2";
 import "./style.scss";
 import {
   ButtonBase,
+  Collapse,
+  LinearProgress,
   TextField,
 } from '@material-ui/core';
 /* Actions */
@@ -16,6 +18,7 @@ const LogIn = ({
   dispatch,
   user,
   history,
+  isLoading,
 }) => {
   const [form, setForm] = React.useState({
     userId: '',
@@ -52,6 +55,9 @@ const LogIn = ({
   return (
     <div className="login">
       <div className="login_card">
+        <Collapse in={isLoading} className="login_load">
+          <LinearProgress />
+        </Collapse>
         <div className="login_title">
           <div className="login_title_first">{title}</div>
           <div className="login_title_last">{subTitle}</div>
@@ -101,19 +107,23 @@ const LogIn = ({
 };
 
 LogIn.propTypes = {
-  title: PropTypes.string,
-  subTitle: PropTypes.string,
   dispatch: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
+  subTitle: PropTypes.string,
+  title: PropTypes.string,
 };
 LogIn.defaultProps = {
-  title: "Classroom Control",
+  isLoading: false,
   subTitle: "Async and Powerfull",
+  title: "Classroom Control",
 };
 
-const mapStateToProps = ({ auth }) => {
+const mapStateToProps = ({ auth, load }) => {
   const { user } = auth;
+  const isLoading = Boolean(load.logIn);
   return {
-    user
+    user,
+    isLoading,
   };
 };
 

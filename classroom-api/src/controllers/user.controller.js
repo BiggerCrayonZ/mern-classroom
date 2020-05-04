@@ -70,9 +70,7 @@ class UserController {
         const { email, password } = access;
         const user = await User.findOne({ email });
         console.log({ user });
-        if (!user) {
-          return reject({ status: 404, message: "Usuario no existe" });
-        }
+        if (!user) return reject({ status: 404, message: "Usuario no existe" });
         const pass = await user.validatePass(password);
         if (!pass) {
           return reject({
@@ -85,6 +83,8 @@ class UserController {
         const token = jwt.sign({ id: user._id, role: user.role }, config.secret, {
           expiresIn: expiredIn,
         });
+        const userEdit = { ...user._doc, lastLogin: new Date() };
+        await User.findByIdAndUpdate(user._id, userEdit)
         resolve({
           status: 200,
           auth: true,
@@ -95,6 +95,7 @@ class UserController {
           email: user.email,
           role: user.role,
           profile: user.profile,
+          lastLogin: userEdit.lastLogin,
         });
       } else {
         return reject({ status: 400, message: 'Usuario y/o contraseña vacios' });

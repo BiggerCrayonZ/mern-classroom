@@ -1,9 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const GeneralListItem = ({ item }) => {
+import { Launch } from '@material-ui/icons';
+import { ButtonBase } from '@material-ui/core';
+
+const GeneralListItem = ({ item, selectActivity }) => {
   return (
-    <div className="generalList_item" title={`${item.title} - ${item.desc}`}>
+    <div
+      className={`generalList_item ${item.conflict && 'generalList_item_conflict'}`}
+      title={`${item.title} - ${item.desc}`}
+    >
       <div className="generalList_item_detail">
         <div>
           <span className="generalList_item_title">{item.title}</span>
@@ -11,7 +17,18 @@ const GeneralListItem = ({ item }) => {
         </div>
         <div>
           <span className="generalList_item_hour">{`${item.start} - ${item.end}`}</span>
-          <span className="generalList_item_location">{`${item.primaryLocation} - ${item.secondaryLocation}`}</span>
+          <div className="generalList_item_footer">
+            <span className="generalList_item_location">{`${item.primaryLocation} - ${item.secondaryLocation}`}</span>
+            <div className="generalList_item_actions">
+              <ButtonBase
+                className={item.conflict && 'generalList_item_actions_con'}
+                title={`Ver detalles de ${item.title}`}
+                onClick={() => selectActivity(item)}
+              >
+                <Launch />
+              </ButtonBase>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -19,7 +36,8 @@ const GeneralListItem = ({ item }) => {
 };
 
 GeneralListItem.propTypes = {
-  item: PropTypes.object.isRequired
+  item: PropTypes.object.isRequired,
+  selectActivity: PropTypes.func.isRequired,
 };
 
 export default GeneralListItem;

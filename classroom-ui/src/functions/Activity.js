@@ -1,4 +1,32 @@
-function timeConvert(num) {
+function getStandarPattern() {
+  return [
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "16",
+    "17",
+    "18",
+    "19",
+    "20",
+    "21",
+    "22",
+    "23",
+  ]
+}
+
+export function timeConvert(num) {
   let date = new Date(null);
   date.setSeconds(num);
   return date.toISOString().substr(11, 5);
@@ -51,7 +79,7 @@ export const mapActivities = acts => {
     acts[0].startHour + acts[0].duration
   );
   acts.forEach(x => {
-    const act = { ...x };
+    const act = { ...x, conflict: false };
     const label = `${act.primaryLocation} - ${act.secondaryLocation}`;
     if (pattern[label] === undefined) {
       pattern = {
@@ -59,6 +87,7 @@ export const mapActivities = acts => {
         [label]: {
           primary: act.primaryLocation,
           secondary: act.secondaryLocation,
+          durationPattern: [...act.durationPattern],
           label,
           row: [act]
         }
@@ -70,7 +99,7 @@ export const mapActivities = acts => {
         act.conflict = true;
       } else {
         pattern[label].row = [...pattern[label].row, act];
-        act.conflict = false;
+        pattern[label].durationPattern = [...pattern[label].durationPattern, ...act.durationPattern];
       }
     }
     pattern[label].row.sort((a, b) => {
@@ -116,7 +145,39 @@ export const mapActivities = acts => {
   return { map, pattern, hourConflict, activities, hMin, hMax };
 };
 
+export const singleFilterByParam = (param, value, arr) => {
+  const res = arr.filter(x => x[param] === value);
+  console.log({ res })
+  return res;
+};
+
+export const getActivityAvailability = (act, map) => {
+  const available = map.filter(x => !x.durationPattern
+    .some(a => act.durationPattern.includes(a)))
+    .map(x => x.label);
+  const current = `${act.primaryLocation} - ${act.secondaryLocation}`;
+  return [...available, current];
+}
+
+export const getActivityHourDisp = (act, map) => {
+  const { primaryLocation, secondaryLocation } = act;
+  const labels = map.filter(x =>
+    x.primary === primaryLocation
+    && x.secondary === secondaryLocation
+  );
+  if (labels.length === 0) return [];
+  const label = labels[0];
+  let { durationPattern } = label;
+  durationPattern = durationPattern.filter(x => !act.durationPattern.includes(x));
+  const generalPattern = getStandarPattern().filter(x => !durationPattern.includes(x));
+  return generalPattern;
+}
+
 export default {
+  timeConvert,
   normalizeActs,
-  mapActivities
+  mapActivities,
+  getActivityHourDisp,
+  singleFilterByParam,
+  getActivityAvailability,
 };
