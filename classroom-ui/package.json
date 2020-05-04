@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "private": true,
   "proxy": "http://localhost:4000/",
+  "homepage": "https://classroom-control-api.herokuapp.com",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-brands-svg-icons": "^5.11.2",
@@ -15,6 +16,7 @@
     "axios": "^0.19.0",
     "bootstrap": "^4.4.1",
     "connected-react-router": "^6.6.1",
+    "fs-extra": "^9.0.0",
     "moment": "^2.24.0",
     "node-sass": "^4.13.0",
     "prop-types": "^15.7.2",
@@ -32,6 +34,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:heroku": "react-scripts build && node concatBuild.js",
+    "build:concat": "node concatBuild.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

@@ -21,6 +21,9 @@ app.use(function(req, res, next) {
 app.use(express.json());
 
 /* Routes */
+app.get('/api', (req, res) => {
+  res.send('Working');
+})
 app.use('/api/activity',require('./routes/activity.routes'));
 app.use('/api/role',require('./routes/role.routes'));
 app.use('/api/auth',require('./routes/auth.routes'));
@@ -28,8 +31,11 @@ app.use('/api/user',require('./routes/user.routes'));
 
 /* Static and React Build */
 app.use(express.static(path.join(__dirname, '../../classroom-ui/build')));
+app.get('/app', (req, res) => {
+  res.sendFile(path.join(__dirname + '/views/index.html'))
+});
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '../../classroom-ui/build/index.html'))
+  res.sendFile(path.join(__dirname + '/views/index.html'))
 });
 
 /* Init */
