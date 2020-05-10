@@ -20,7 +20,6 @@ export function getAllActivities(sync = null, search = "", showLoading = true) {
           const { data } = response;
           const act = normalizeActs(data.result);
           const labels = mapActivities(act);
-          console.log({ labels });
           const conflicts = Boolean(labels.hourConflict.length > 0);
           if (sync && search === "") {
             await Swal.fire({
@@ -103,7 +102,6 @@ export function syncActivities(file = null) {
                 await dispatch(loaded("activity"));
               })
               .catch(async uploadErr => {
-                console.log({ uploadErr });
                 if (uploadErr.status === 400) {
                   Swal.fire({
                     icon: "warning",
@@ -131,7 +129,6 @@ export function syncActivities(file = null) {
           }
         })
         .catch(async cleanErr => {
-          console.log({ cleanErr });
           await dispatch(loaded("activity"));
           await dispatch(loaded("file"));
         });
@@ -183,7 +180,6 @@ export function deleteRegister() {
     try {
       const ActivityApi = new Activities();
       const clean = await ActivityApi.clean();
-      console.log({ clean })
       const { success } = clean.data;
       if (success) {
         await dispatch({ type: EMPTY_SUCCESS });

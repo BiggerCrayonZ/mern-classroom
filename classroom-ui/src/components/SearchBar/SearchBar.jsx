@@ -19,7 +19,7 @@ const SearchBar = ({ dispatch, filterParam }) => {
     await dispatch(filterByState(param, value));
   };
 
-  const search = (search = '') => dispatch(getAllActivities(search));
+  const search = (search = '') => dispatch(getAllActivities(false, search, false));
 
   return (
     <div className="searchBar">
