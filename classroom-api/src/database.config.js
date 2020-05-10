@@ -7,6 +7,6 @@ mong.set('useCreateIndex', true);
 mong
   .connect(URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(db => console.log("BD conectada"))
-  .catch(err => console.err(err));
+  .catch(err => console.log(err));
 
 module.exports = mong;

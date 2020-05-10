@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node src/index.js",
     "user": "cd ../classroom-user && ng serve -o --configuration=dev",
     "client": "cd ../classroom-ui && yarn start",
     "server": "nodemon src/index.js",
