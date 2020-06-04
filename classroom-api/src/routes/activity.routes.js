@@ -146,6 +146,19 @@ router.put("/:id", verifyToken, async (req, res) => {
   res.json({ status: "success", newActivity });
 });
 
+router.delete("/empty", verifyToken, async (req, res) => {
+  console.log("entra")
+  try {
+    const controller = new activityController();
+    controller
+      .emptyCollection()
+      .then(result => res.status(200).json(result))
+      .catch(err => res.status(err.status).json(err));
+  } catch (err) {
+    res.status(500).json({ activityErr: { ...err } });
+  }
+});
+
 router.delete("/:id", verifyToken, async (req, res) => {
   try {
     const response = await Activity.findByIdAndDelete(req.params.id);
@@ -157,18 +170,6 @@ router.delete("/:id", verifyToken, async (req, res) => {
   } catch (err) {
     const resError = generalCallback('deleteSingle', err);
     res.status(resError.status).json({ ...resError });
-  }
-});
-
-router.delete("/empty", verifyToken, async (req, res) => {
-  try {
-    const controller = new activityController();
-    controller
-      .emptyCollection()
-      .then(result => res.status(200).json(result))
-      .catch(err => res.status(err.status).json(err));
-  } catch (err) {
-    res.status(500).json({ activityErr: { ...err } });
   }
 });
 
